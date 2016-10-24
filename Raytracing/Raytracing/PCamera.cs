@@ -127,7 +127,8 @@ namespace Raytracing
                             {
                                 ijx = ((2f * (i + 0.5f) * aspectRatio / (float)width) - 1f) * tanFov2;
                                 ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
-                            } else
+                            }
+                            else
                             {
                                 ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
                                 ijy = (1f - (2f * (j + 0.5f) / aspectRatio / (float)height)) * tanFov2;
@@ -136,10 +137,11 @@ namespace Raytracing
                             Ray ray = new Ray(this.position, rayDirection);
                             if (sphere.Intersect(ray, ref am, ref pp1, ref pp2) == true)
                             {
-                                if (pp1.Z < zBuffer[i, j])
+                                float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
+                                if (dis < zBuffer[i, j])
                                 {
                                     img.setPixel(i, j, sphere.Color);
-                                    zBuffer[i, j] = pp1.Z;
+                                    zBuffer[i, j] = dis;
                                 }
                             }
                         }

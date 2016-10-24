@@ -18,11 +18,11 @@ namespace Raytracing
             //Application.EnableVisualStyles();
             //Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new Form1());
-            
+
             int am = 0;
             Vector pp1 = new Vector(0, 0, 0);
             Vector pp2 = new Vector(0, 0, 0);
-            
+
             //INSTRUKCJA 1
             /*
             Vector S0 = new Vector(0, 0, 0);
@@ -153,7 +153,7 @@ namespace Raytracing
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
-            perspCamera.render_scene(1000, 1000, sphereList, null, "pcamera.jpg");
+            perspCamera.render_scene(1000, 1000, sphereList, null, "pcamera0.jpg");
             perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
             perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
             OCamera orthoCamera = new OCamera();
