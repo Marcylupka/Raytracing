@@ -103,7 +103,6 @@ namespace Raytracing
             float tanFov2 = (float)Math.Tan(radFov / 2f);
 
             LightIntensity backColor = new LightIntensity(0, 0, 0);
-            LightIntensity coloral = backColor;
             int it = 1;
             for (int i = 0; i < width; i++)
             {
@@ -131,6 +130,7 @@ namespace Raytracing
                     {
                         foreach (Sphere sphere in sphereList)
                         {
+                            LightIntensity coloral = sphere.Color;
                             float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
                             float ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
                             if (aspectRatio >= 1)
@@ -145,14 +145,13 @@ namespace Raytracing
                             }
                             Vector rayDirection = u * ijx + v * ijy + w * (-distance);
                             Ray ray = new Ray(this.position, rayDirection);
+                            LightIntensity pxa = backColor;
+                            LightIntensity pxb = backColor;
+                            LightIntensity pxc = backColor;
+                            LightIntensity pxd = backColor;
                             if (sphere.Intersect(ray, ref am, ref pp1, ref pp2) == true)
                             {
-                                LightIntensity pxa = backColor;
-                                LightIntensity pxb = backColor;
-                                LightIntensity pxc = backColor;
-                                LightIntensity pxd = backColor;
-                                LightIntensity pxe = backColor;
-                                pxe = sphere.Color;
+                                LightIntensity pxe = sphere.Color;
 
                                 float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
                                 if (dis < zBuffer[i, j])
@@ -229,8 +228,8 @@ namespace Raytracing
                                             }
                                         }
                                     }
-                                    Sampler s1 = new Sampler(1, 11, 0.1f);
-                                    //if (s1.adaptiveSampling(pxa, pxb, pxc, pxd, pxe, ref it, ref coloral))
+                                    Sampler s1 = new Sampler(1, 17, 0.01f);
+                                    //if (s1.adaptiveSampling(pxa, pxb, pxc, pxd, pxe, ref it, ref coloral)==false)
                                     //{
                                         s1.adaptiveSampling(pxa, pxb, pxc, pxd, pxe, ref it, ref coloral);
                                     //}

@@ -153,14 +153,14 @@ namespace Raytracing
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
-            perspCamera.render_scene(1000, 1000, sphereList, null, "pcamera0.jpg");
-            perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
-            perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
-            OCamera orthoCamera = new OCamera();
+            perspCamera.render_scene(1000, 1000, sphereList, null, "pcameranew.jpg");
+            //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
+            //perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
+           /* OCamera orthoCamera = new OCamera();
             orthoCamera.render_scene(1000, 1000, sphereList, null, "ocamera.jpg");
             orthoCamera.render_scene(600, 400, sphereList, null, "ocamera1.jpg");
             orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
-
+            */
         }
     }
 }

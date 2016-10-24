@@ -74,14 +74,18 @@ namespace Raytracing
 
         public Boolean adaptiveSampling(LightIntensity pixA, LightIntensity pixB, LightIntensity pixC, LightIntensity pixD, LightIntensity pixE, ref int iter, ref LightIntensity res)
         {
-            if (this.contrastFunc(pixA, pixB, pixC, pixD))
+            if (this.contrastFunc(pixA, pixB, pixC, pixD) && iter == 1)
+            {
+                iter = 1;
+                return true;
+            } else  if (this.contrastFunc(pixA, pixB, pixC, pixD))
             {
                 //LightIntensity res = new LightIntensity();
                 res.R += (float)((pixA.R + pixB.R + pixC.R + pixD.R + pixE.R * 4f) / 8f / Math.Pow(4, (double)iter));
                 res.G += (float)((pixA.G + pixB.G + pixC.G + pixD.G + pixE.G * 4f) / 8f / Math.Pow(4, (double)iter));
                 res.B += (float)((pixA.B + pixB.B + pixC.B + pixD.B + pixE.B * 4f) / 8f / Math.Pow(4, (double)iter));
                 this.count += 5;
-                iter++;
+                iter=1;
                 return true;
             }
             else if (this.count < this.maximum)
@@ -103,7 +107,7 @@ namespace Raytracing
                 res.G += (float)((pixA.G + pixB.G + pixC.G + pixD.G + pixE.G * 4f) / 8f / Math.Pow(4, (double)iter));
                 res.B += (float)((pixA.B + pixB.B + pixC.B + pixD.B + pixE.B * 4f) / 8f / Math.Pow(4, (double)iter));
                 this.count += 5;
-                iter++;
+                iter=1;
                 return true;
             }
         }
