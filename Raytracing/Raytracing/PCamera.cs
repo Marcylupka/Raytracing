@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace Raytracing
+namespace Kuc_Ray
 {
     class PCamera
     {
@@ -267,12 +267,10 @@ namespace Raytracing
                                     foreach (Sphere sphereAA in sphereList)
                                     {
                                         LightIntensity pxe = sphereAA.Color;
-                                        //Boolean foundIntersection = false;
                                         for (int k = 0; k < gridSize; k++)
                                         {
                                             for (int l = 0; l < gridSize; l++)
                                             {
-                                                //foundIntersection = false;
                                                 if (aspectRatio >= 1)
                                                 {
                                                     ijx = ((2f * (i + k * gridStep) * aspectRatio / (float)width) - 1f) * tanFov2;

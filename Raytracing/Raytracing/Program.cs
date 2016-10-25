@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Drawing;
 
-namespace Raytracing
+namespace Kuc_Ray
 {
     static class Program
     {
@@ -132,31 +132,31 @@ namespace Raytracing
             */
 
             //PERSPECTIVE CAMERA
-            LightIntensity kolorek1 = new LightIntensity(1, 0.5f, 0);
-            Vector VV1 = new Vector(0, 0, 0);
-            Sphere SS1 = new Sphere(VV1, 0.5f, kolorek1);
-            LightIntensity kolorek2 = new LightIntensity(0, 1, 0.5f);
-            Vector VV2 = new Vector(0.7f, 0, 5);
-            Sphere SS2 = new Sphere(VV2, 0.5f, kolorek2);
-            LightIntensity kolorek3 = new LightIntensity(0, 0, 1);
-            Vector VV3 = new Vector(2, 1, 10);
-            Sphere SS3 = new Sphere(VV3, 0.5f, kolorek3);
-            LightIntensity kolorek4 = new LightIntensity(1, 1, 1);
+            LightIntensity kolorek1 = new LightIntensity(1.0f, 0, 0);
+            Vector VV1 = new Vector(-1.5f, 0, 0);
+            Sphere SS1 = new Sphere(VV1, 0.85f, kolorek1);
+            LightIntensity kolorek2 = new LightIntensity(0, 1.0f, 0);
+            Vector VV2 = new Vector(0, 0, 0);
+            Sphere SS2 = new Sphere(VV2, 0.85f, kolorek2);
+            LightIntensity kolorek3 = new LightIntensity(0, 0, 1.0f);
+            Vector VV3 = new Vector(1.5f, 0, 0);
+            Sphere SS3 = new Sphere(VV3, 0.85f, kolorek3);
+            LightIntensity kolorek4 = new LightIntensity(0, 1, 1);
             Vector VV4 = new Vector(-2, -1, 15);
             Sphere SS4 = new Sphere(VV4, 0.5f, kolorek4);
             List<Sphere> sphereList = new List<Sphere>();
             sphereList.Add(SS1);
             sphereList.Add(SS2);
             sphereList.Add(SS3);
-            sphereList.Add(SS4);
+            //sphereList.Add(SS4);
             Vector pos = new Vector(0, 0, -5);
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
             OCamera orthoCamera = new OCamera();
-            //perspCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "pcameranew.jpg", 8);
+            perspCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "pcameranew.jpg", 4);
             //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
-            orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",8);
+            //orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",4);
             //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
             //perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
             /* OCamera orthoCamera = new OCamera();

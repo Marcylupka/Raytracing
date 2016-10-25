@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raytracing
+namespace Kuc_Ray
 {
     public class Vector
     {

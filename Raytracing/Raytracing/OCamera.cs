@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raytracing
+namespace Kuc_Ray
 {
     public class OCamera
     {
@@ -66,7 +66,7 @@ namespace Raytracing
                             if (sphere.Intersect(ray, ref am, ref pp1, ref pp2) == true)
                             {
                                 LightIntensity pxAA = new LightIntensity();
-                                float dis = (float)Math.Sqrt(((pp1.Z) * (pp1.Z)) + ((pp1.Y) * (pp1.Y)) + ((pp1.X) * (pp1.X)));
+                                float dis = pp1.Z;
                                 if (dis < zBuffer[i, j])
                                 {
                                     LightIntensity[,] amountAA = new LightIntensity[gridSize, gridSize];
@@ -91,7 +91,7 @@ namespace Raytracing
                                                 Ray rayAA = new Ray(new Vector(srodekX, srodekY, 0), new Vector(0, 0, 1));
                                                 if (sphereAA.Intersect(rayAA, ref am, ref pp1, ref pp2) == true)
                                                 {
-                                                    float disAA = (float)Math.Sqrt(((pp1.Z) * (pp1.Z)) + ((pp1.Y) * (pp1.Y)) + ((pp1.X) * (pp1.X)));
+                                                    float disAA = pp1.Z;
                                                     if (disAA < zBufferAA[k, l])
                                                     {
                                                         amountAA[k, l] = pxe;

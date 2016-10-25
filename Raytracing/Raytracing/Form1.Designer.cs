@@ -1,4 +1,4 @@
-﻿namespace Raytracing
+﻿namespace Kuc_Ray
 {
     partial class Form1
     {

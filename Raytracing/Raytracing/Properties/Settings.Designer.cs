@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Raytracing.Properties
+namespace Kuc_Ray.Properties
 {
 
 

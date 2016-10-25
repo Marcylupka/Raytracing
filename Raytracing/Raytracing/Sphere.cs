@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Raytracing
+namespace Kuc_Ray
 {
     public class Sphere
     {
@@ -48,8 +48,8 @@ namespace Raytracing
             float t;
             Vector distance = ray.Origin - center;
             float tMin = 0;
-            tempMin = new Raytracing.Vector(0, 0, 0);
-            notMin = new Raytracing.Vector(0, 0, 0);
+            tempMin = new Kuc_Ray.Vector(0, 0, 0);
+            notMin = new Kuc_Ray.Vector(0, 0, 0);
             amount = 0;
             /*if(distance > ray.Distance)
             {
