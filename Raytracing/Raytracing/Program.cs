@@ -136,7 +136,7 @@ namespace Raytracing
             Vector VV1 = new Vector(0, 0, 0);
             Sphere SS1 = new Sphere(VV1, 0.5f, kolorek1);
             LightIntensity kolorek2 = new LightIntensity(0, 1, 0.5f);
-            Vector VV2 = new Vector(1, 0, 5);
+            Vector VV2 = new Vector(0.7f, 0, 5);
             Sphere SS2 = new Sphere(VV2, 0.5f, kolorek2);
             LightIntensity kolorek3 = new LightIntensity(0, 0, 1);
             Vector VV3 = new Vector(2, 1, 10);
@@ -153,14 +153,17 @@ namespace Raytracing
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
-            perspCamera.render_scene(1000, 1000, sphereList, null, "pcameranew.jpg");
+            OCamera orthoCamera = new OCamera();
+            //perspCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "pcameranew.jpg", 8);
+            //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
+            orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",8);
             //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
             //perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
-           /* OCamera orthoCamera = new OCamera();
-            orthoCamera.render_scene(1000, 1000, sphereList, null, "ocamera.jpg");
-            orthoCamera.render_scene(600, 400, sphereList, null, "ocamera1.jpg");
-            orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
-            */
+            /* OCamera orthoCamera = new OCamera();
+             orthoCamera.render_scene(1000, 1000, sphereList, null, "ocamera.jpg");
+             orthoCamera.render_scene(600, 400, sphereList, null, "ocamera1.jpg");
+             orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
+             */
         }
     }
 }

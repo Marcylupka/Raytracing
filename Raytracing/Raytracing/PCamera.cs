@@ -72,7 +72,8 @@ namespace Raytracing
             this.farPlane = 1000;
             this.up = new Vector(0, 1, 0);
         }
-        public void render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name)
+        /*
+         * public void render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name)
         {
 
             Picture img = new Picture(width, height);
@@ -156,86 +157,161 @@ namespace Raytracing
                                 float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
                                 if (dis < zBuffer[i, j])
                                 {
-                                    float lux, luy, ldx, ldy, rux, ruy, rdx, rdy;
-                                    if (aspectRatio >= 1)
-                                    {
-                                        lux = ((2f * i * aspectRatio / (float)width) - 1f) * tanFov2;
-                                        luy = (1f - (2f * j / (float)height)) * tanFov2;
-                                        ldx = ((2f * i * aspectRatio / (float)width) - 1f) * tanFov2;
-                                        ldy = (1f - (2f * (j + 1f) / (float)height)) * tanFov2;
-                                        rux = ((2f * (i + 1f) * aspectRatio / (float)width) - 1f) * tanFov2;
-                                        ruy = (1f - (2f * j / (float)height)) * tanFov2;
-                                        rdx = ((2f * (i + 1f) * aspectRatio / (float)width) - 1f) * tanFov2;
-                                        rdy = (1f - (2f * (j + 1f) / (float)height)) * tanFov2;
-                                    }
-                                    else
-                                    {
-                                        lux = ((2f * i / (float)width) - 1f) * tanFov2;
-                                        luy = (1f - (2f * j / aspectRatio / (float)height)) * tanFov2;
-                                        ldx = ((2f * i / (float)width) - 1f) * tanFov2;
-                                        ldy = (1f - (2f * (j + 1f) / aspectRatio / (float)height)) * tanFov2;
-                                        rux = ((2f * (i + 1f) / (float)width) - 1f) * tanFov2;
-                                        ruy = (1f - (2f * j / aspectRatio / (float)height)) * tanFov2;
-                                        rdx = ((2f * (i + 1f) / (float)width) - 1f) * tanFov2;
-                                        rdy = (1f - (2f * (j + 1f) / aspectRatio / (float)height)) * tanFov2;
-                                    }
+                                    img.setPixel(i, j, pxe);
+                                    zBuffer[i, j] = dis;
+                                }
+                            }
+                        }
+                    }
 
-                                    
-                                    foreach (Sphere spherebis in sphereList)
+                }
+            }
+            img.Obraz.Save(name);
+        }
+        */
+
+
+        public void reg_aa_render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name, int gridSize)
+        {
+            float gridStep = 1.0f / gridSize;
+            Picture img = new Picture(width, height);
+
+            float[,] zBuffer = new float[width, height];
+            float[,] zBuffera = new float[width, height];
+            float[,] zBufferb = new float[width, height];
+            float[,] zBufferc = new float[width, height];
+            float[,] zBufferd = new float[width, height];
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    zBuffer[i, j] = (float)Double.PositiveInfinity;
+                    zBuffera[i, j] = (float)Double.PositiveInfinity;
+                    zBufferb[i, j] = (float)Double.PositiveInfinity;
+                    zBufferc[i, j] = (float)Double.PositiveInfinity;
+                    zBufferd[i, j] = (float)Double.PositiveInfinity;
+                }
+            }
+
+            int am = 0;
+            float dist = 0;
+            Vector pp1 = new Vector(0, 0, 0);
+            Vector pp2 = new Vector(0, 0, 0);
+
+            float radFov = this.fov * (float)Math.PI / 180f;
+            float tanFov2 = (float)Math.Tan(radFov / 2f);
+
+            LightIntensity backColor = new LightIntensity(0, 0, 0);
+            int it = 1;
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    img.setPixel(i, j, backColor);
+                }
+            }
+
+            Vector w = this.position - this.target;
+            w.normalize();
+            float distance = w.length;
+            Vector u = (this.up).cross(w);
+            u.normalize();
+            Vector v = w.cross(u);
+            u.negate();
+
+            float aspectRatio = (float)width / (float)height * 1.0f;
+
+            for (int i = 0; i < width; i++)
+            {
+                for (int j = 0; j < height; j++)
+                {
+                    if (sphereList != null)
+                    {
+                        foreach (Sphere sphere in sphereList)
+                        {
+                            LightIntensity coloral = sphere.Color;
+                            float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
+                            float ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
+                            if (aspectRatio >= 1)
+                            {
+                                ijx = ((2f * (i + 0.5f) * aspectRatio / (float)width) - 1f) * tanFov2;
+                                ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
+                            }
+                            else
+                            {
+                                ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
+                                ijy = (1f - (2f * (j + 0.5f) / aspectRatio / (float)height)) * tanFov2;
+                            }
+                            Vector rayDirection = u * ijx + v * ijy + w * (-distance);
+                            Ray ray = new Ray(this.position, rayDirection);
+                            //LightIntensity pxa = backColor;
+                            //LightIntensity pxb = backColor;
+                            //LightIntensity pxc = backColor;
+                            //LightIntensity pxd = backColor;
+                            if (sphere.Intersect(ray, ref am, ref pp1, ref pp2) == true)
+                            {
+                                LightIntensity pxAA = new LightIntensity();
+                                float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
+                                if (dis < zBuffer[i, j])
+                                {
+                                    LightIntensity[,] amountAA = new LightIntensity[gridSize, gridSize];
+                                    float[,] zBufferAA = new float[gridSize, gridSize];
+                                    for (int i2 = 0; i2 < gridSize; i2++)
                                     {
-                                        Vector rayDirectiona = u * ldx + v * ldy + w * (-distance);
-                                        Ray raya = new Ray(this.position, rayDirectiona);
-                                        if (spherebis.Intersect(raya, ref am, ref pp1, ref pp2) == true)
+                                        for (int j2 = 0; j2 < gridSize; j2++)
                                         {
-                                            float disa = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                            if (disa < zBuffera[i, j])
-                                            {
-                                                pxa = spherebis.Color;
-                                                zBuffera[i, j] = disa;
-                                            }
+                                            amountAA[i2, j2] = new LightIntensity();
+                                            zBufferAA[i2, j2] = (float)Double.PositiveInfinity;
                                         }
-                                        Vector rayDirectionb = u * rdx + v * rdy + w * (-distance);
-                                        Ray rayb = new Ray(this.position, rayDirectionb);
-                                        if (spherebis.Intersect(rayb, ref am, ref pp1, ref pp2) == true)
+                                    }
+                                    foreach (Sphere sphereAA in sphereList)
+                                    {
+                                        LightIntensity pxe = sphereAA.Color;
+                                        //Boolean foundIntersection = false;
+                                        for (int k = 0; k < gridSize; k++)
                                         {
-                                            float disb = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                            if (disb < zBufferb[i, j])
+                                            for (int l = 0; l < gridSize; l++)
                                             {
-                                                pxb = spherebis.Color;
-                                                zBufferb[i, j] = disb;
-                                            }
-                                        }
-                                        Vector rayDirectionc = u * rux + v * ruy + w * (-distance);
-                                        Ray rayc = new Ray(this.position, rayDirectionc);
-                                        if (spherebis.Intersect(rayc, ref am, ref pp1, ref pp2) == true)
-                                        {
-                                            float disc = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                            if (disc < zBufferc[i, j])
-                                            {
-                                                pxc = spherebis.Color;
-                                                zBufferc[i, j] = disc;
-                                            }
-                                        }
-                                        Vector rayDirectiond = u * lux + v * luy + w * (-distance);
-                                        Ray rayd = new Ray(this.position, rayDirectiond);
-                                        if (spherebis.Intersect(rayd, ref am, ref pp1, ref pp2) == true)
-                                        {
-                                            float disd = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                            if (disd < zBufferd[i, j])
-                                            {
-                                                pxd = spherebis.Color;
-                                                zBufferd[i, j] = disd;
+                                                //foundIntersection = false;
+                                                if (aspectRatio >= 1)
+                                                {
+                                                    ijx = ((2f * (i + k * gridStep) * aspectRatio / (float)width) - 1f) * tanFov2;
+                                                    ijy = (1f - (2f * (j + l * gridStep) / (float)height)) * tanFov2;
+                                                }
+                                                else
+                                                {
+                                                    ijx = ((2f * (i + k * gridStep) / (float)width) - 1f) * tanFov2;
+                                                    ijy = (1f - (2f * (j + l * gridStep) / aspectRatio / (float)height)) * tanFov2;
+                                                }
+                                                Vector rayAADirection = u * ijx + v * ijy + w * (-distance);
+                                                Ray rayAA = new Ray(this.position, rayAADirection);
+                                                if (sphereAA.Intersect(rayAA, ref am, ref pp1, ref pp2) == true)
+                                                {
+                                                    float disAA = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
+                                                    if (disAA < zBufferAA[k, l])
+                                                    {
+                                                        amountAA[k, l] = pxe;
+                                                        zBufferAA[k, l] = disAA;
+                                                    }
+                                                    //foundIntersection = true;
+                                                }
+                                               // if (!foundIntersection) amountAA[k, l] = backColor;
                                             }
                                         }
                                     }
-                                    Sampler s1 = new Sampler(1, 17, 0.01f);
-                                    //if (s1.adaptiveSampling(pxa, pxb, pxc, pxd, pxe, ref it, ref coloral)==false)
-                                    //{
-                                        s1.adaptiveSampling(pxa, pxb, pxc, pxd, pxe, ref it, ref coloral);
-                                    //}
-
-                                        img.setPixel(i, j, coloral);
-                                        zBuffer[i, j] = dis;
+                                    for (int k = 0; k < gridSize; k++)
+                                    {
+                                        for (int l = 0; l < gridSize; l++)
+                                        {
+                                            pxAA.add(amountAA[k, l]);
+                                        }
+                                    }
+                                    //Console.WriteLine(pxAA.R + "," + pxAA.G + "," + pxAA.B);
+                                    //img.setPixel(i, j, pxAA);
+                                    pxAA.div(gridSize * gridSize);
+                                    //Console.WriteLine(pxAA.R + "," + pxAA.G + "," + pxAA.B);
+                                    img.setPixel(i, j, pxAA);
+                                    zBuffer[i, j] = dis;
                                 }
                             }
                         }

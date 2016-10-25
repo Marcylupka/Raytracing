@@ -22,3 +22,11 @@ D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracin
 D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.csprojResolveAssemblyReference.cache
 D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.Properties.Resources.resources
 D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.csproj.GenerateResource.Cache
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\bin\Debug\Raytracing.exe.config
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\obj\Debug\Raytracing.exe
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\obj\Debug\Raytracing.pdb
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\bin\Debug\Raytracing.exe
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\bin\Debug\Raytracing.pdb
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\obj\Debug\Raytracing.csprojResolveAssemblyReference.cache
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\obj\Debug\Raytracing.Properties.Resources.resources
+C:\Users\Michał\Documents\Raytracing\Raytracing\Raytracing\obj\Debug\Raytracing.csproj.GenerateResource.Cache
