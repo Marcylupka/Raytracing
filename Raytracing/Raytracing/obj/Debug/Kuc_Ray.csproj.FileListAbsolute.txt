@@ -1,0 +1,8 @@
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\bin\Debug\Raytracing.exe.config
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.exe
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.pdb
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Kuc_Ray.csprojResolveAssemblyReference.cache
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Raytracing.Properties.Resources.resources
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\obj\Debug\Kuc_Ray.csproj.GenerateResource.Cache
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\bin\Debug\Raytracing.exe
+D:\Dokumenty\studia\studia\IIst\2.sem\fotorealistyczna\zad1_v1 - Kopia\Raytracing\Raytracing\bin\Debug\Raytracing.pdb

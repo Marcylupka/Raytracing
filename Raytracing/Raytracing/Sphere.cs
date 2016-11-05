@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Kuc_Ray
 {
-    public class Sphere
+    public class Sphere : Object1
     {
+        private String type;
+        public String Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        /*public String Object1.MyType()
+        {
+            return this.type;
+        }*/
+
         private Vector center;
         public Vector Center
         {
@@ -22,18 +34,13 @@ namespace Kuc_Ray
             set { radius = value; }
         }
 
-        private LightIntensity color;
-        public LightIntensity Color
-        {
-            get { return color; }
-            set { color = value; }
-        }
-
         public Sphere()
         {
             this.center = new Vector(1, 1, 1);
             this.radius = 1;
             this.color = new LightIntensity(1, 1, 1);
+            this.type = "sphere";
+
         }
 
         public Sphere (Vector c, float r, LightIntensity col)
@@ -41,10 +48,12 @@ namespace Kuc_Ray
             this.center = c;
             this.radius = r;
             this.color = col;
+            this.type = "sphere";
         }
 
-        public bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref Vector notMin)
+        public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist)
         {
+            Vector notMin = new Vector();
             float t;
             Vector distance = ray.Origin - center;
             float tMin = 0;
@@ -116,6 +125,7 @@ namespace Kuc_Ray
                     }
                     else return false;
                 }
+            dist = (tempMin - ray.Origin).length;
          return true;
 
         }

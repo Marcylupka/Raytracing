@@ -144,17 +144,17 @@ namespace Kuc_Ray
             LightIntensity kolorek4 = new LightIntensity(0, 1, 1);
             Vector VV4 = new Vector(-2, -1, 15);
             Sphere SS4 = new Sphere(VV4, 0.5f, kolorek4);
-            List<Sphere> sphereList = new List<Sphere>();
-            sphereList.Add(SS1);
-            sphereList.Add(SS2);
-            sphereList.Add(SS3);
+            List<Object1> object1List = new List<Object1>();
+            object1List.Add(SS1);
+            object1List.Add(SS2);
+            object1List.Add(SS3);
             //sphereList.Add(SS4);
             Vector pos = new Vector(0, 0, -5);
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
             OCamera orthoCamera = new OCamera();
-            perspCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "pcameranew.jpg", 4);
+            perspCamera.reg_object_render_scene(1000, 1000, object1List, "object1new.jpg", 4);
             //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
             //orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",4);
             //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
@@ -164,6 +164,32 @@ namespace Kuc_Ray
              orthoCamera.render_scene(600, 400, sphereList, null, "ocamera1.jpg");
              orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
              */
+
+            Vector tp1 = new Vector(0, 0, 0);
+            Vector tp2 = new Vector(2, 0, 0);
+            Vector tp3 = new Vector(1, 2, 0);
+            Triangle tr1 = new Triangle(tp1, tp2, tp3);
+            tr1.Color = kolorek1;
+            Vector trayo = new Vector(1, 1, -1);
+            Vector trayd1 = new Vector(1, 1, 1);
+            Vector trayd = trayd1 - trayo;
+            Ray tray = new Ray(trayo, trayd);
+            Vector tpp = new Vector (0,0,0);
+            int tam = 0;
+            float tdd = 0f;
+            if (tr1.Intersect(tray, ref tam, ref tpp, ref tdd))
+            {
+                Console.WriteLine("Punkt przeciecia promienia z trojkatem: ");
+                Console.WriteLine(tpp);
+                Console.WriteLine();
+            }
+            List<Object1> objectList = new List<Object1>();
+            objectList.Add(tr1);
+            Vector pos2 = new Vector(0, 0, -5);
+            Vector targ2 = new Vector(0, 0, 0);
+            float fov2 = 60f;
+            PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
         }
     }
 }

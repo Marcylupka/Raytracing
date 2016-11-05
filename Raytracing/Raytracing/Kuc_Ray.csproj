@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mesh.cs" />
+    <Compile Include="Object1.cs" />
     <Compile Include="OCamera.cs" />
     <Compile Include="PCamera.cs" />
     <Compile Include="Form1.cs">
@@ -64,6 +66,7 @@
     <Compile Include="RegularSampler.cs" />
     <Compile Include="Sampler.cs" />
     <Compile Include="Sphere.cs" />
+    <Compile Include="Triangle.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

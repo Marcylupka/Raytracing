@@ -74,6 +74,9 @@ namespace Kuc_Ray
 
         public Boolean adaptiveSampling(LightIntensity pixA, LightIntensity pixB, LightIntensity pixC, LightIntensity pixD, LightIntensity pixE, ref int iter, ref LightIntensity res)
         {
+
+
+
             if (this.contrastFunc(pixA, pixB, pixC, pixD) && iter == 1)
             {
                 iter = 1;

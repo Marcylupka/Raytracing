@@ -8,7 +8,7 @@ namespace Kuc_Ray
 {
     public class OCamera
     {
-        public void reg_aa_render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name, int gridSize)
+        /*public void reg_aa_render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name, int gridSize)
         {
             float gridStep = 1.0f / gridSize;
             Picture img = new Picture(width, height);
@@ -117,28 +117,10 @@ namespace Kuc_Ray
                                 }
 
 
-
-                                    /*if (pp1.Z < zBuffer[i, j])
-                                    {
-                                        img.setPixel(i, j, sphere.Color);
-                                        zBuffer[i, j] = pp1.Z;
-                                    }*/
                                 }
                         }
                     }
-                    /*
-                    if (plainList != null)
-                    {
-                        foreach (Plain plain in plainList)
-                        {
-                            if (plain.Intersect(ray, ref dist, ref pp1) == true)
-                            {
-                                img.setPixel(i, j, plain.Color);
-                            }
-                            else img.setPixel(i, j, backColor);
-                        }
-                    }
-                    */
+
                 }
             }
             img.Obraz.Save(name);
@@ -209,23 +191,10 @@ namespace Kuc_Ray
                             }
                         }
                     }
-                    /*
-                    if (plainList != null)
-                    {
-                        foreach (Plain plain in plainList)
-                        {
-                            if (plain.Intersect(ray, ref dist, ref pp1) == true)
-                            {
-                                img.setPixel(i, j, plain.Color);
-                            }
-                            else img.setPixel(i, j, backColor);
-                        }
                     }
-                    */
-                }
             }
             img.Obraz.Save(name);
-        }
+        }*/
 
 
     }

@@ -6,8 +6,20 @@ using System.Threading.Tasks;
 
 namespace Kuc_Ray
 {
-    public class Plain
+    public class Plain : Object1
     {
+        private String type;
+        public String Type
+        {
+            get { return type; }
+            set { type = value; }
+        }
+
+        /*public String Object1.MyType()
+        {
+            return this.type;
+        }*/
+
         private Vector point;
         public Vector Point
         {
@@ -22,11 +34,11 @@ namespace Kuc_Ray
             set { normal = value; }
         }
 
-        private LightIntensity color;
-        public LightIntensity Color
+        public Plain(Vector p, Vector norm)
         {
-            get { return color; }
-            set { color = value; }
+            this.point = p;
+            this.normal = norm;
+            this.type = "plain";
         }
 
         public Plain (Vector p, Vector norm, LightIntensity col)
@@ -34,9 +46,15 @@ namespace Kuc_Ray
             this.point = p;
             this.normal = norm;
             this.color = col;
+            this.type = "plain";
         }
 
-        public bool Intersect(Ray ray, ref float distance, ref Vector ppp)
+        public Plain()
+        {
+            this.type = "plain";
+        }
+
+        public override bool Intersect(Ray ray, ref int am, ref Vector ppp, ref float distance)
         {
             ppp = new Vector(0, 0, 0);
 
@@ -52,8 +70,10 @@ namespace Kuc_Ray
                 ppp.X = ray.Origin.X + distance * ray.Direction.X;
                 ppp.Y = ray.Origin.Y + distance * ray.Direction.Y;
                 ppp.Z = ray.Origin.Z + distance * ray.Direction.Z;
+                am = 1;
                 return true;
             }
+            am = 0;
             return false;
         }
     }
