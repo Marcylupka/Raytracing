@@ -154,7 +154,7 @@ namespace Kuc_Ray
             float fov = 60f;
             PCamera perspCamera = new PCamera(pos, targ, fov);
             OCamera orthoCamera = new OCamera();
-            perspCamera.reg_object_render_scene(1000, 1000, object1List, "object1new.jpg", 4);
+            //perspCamera.reg_object_render_scene(1000, 1000, object1List, "object1new.jpg", 4);
             //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
             //orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",4);
             //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
@@ -168,6 +168,7 @@ namespace Kuc_Ray
             Vector tp1 = new Vector(0, 0, 0);
             Vector tp2 = new Vector(2, 0, 0);
             Vector tp3 = new Vector(1, 2, 0);
+            //Triangle tr1 = new Triangle(tp1, tp3, tp2);
             Triangle tr1 = new Triangle(tp1, tp2, tp3);
             tr1.Color = kolorek1;
             Vector trayo = new Vector(1, 1, -1);
@@ -189,7 +190,11 @@ namespace Kuc_Ray
             Vector targ2 = new Vector(0, 0, 0);
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
+            //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
+
+            Mesh meszu = new Mesh();
+            meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\tr.obj");
+            
         }
     }
 }
