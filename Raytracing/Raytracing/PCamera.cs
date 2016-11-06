@@ -320,7 +320,7 @@ namespace Kuc_Ray
             img.Obraz.Save(name);
         }*/
 
-        public void reg_object_render_scene(int width, int height, List<Object1> objectList, String name, int gridSize)
+        public void reg_object_render_scene(int width, int height, List<Object1> objectList, Mesh meszu, String name, int gridSize)
         {
             float gridStep = 1.0f / gridSize;
             Picture img = new Picture(width, height);
@@ -370,6 +370,11 @@ namespace Kuc_Ray
             u.negate();
 
             float aspectRatio = (float)width / (float)height * 1.0f;
+
+            foreach (Triangle t in meszu.TriangleList)
+            {
+                objectList.Add(t);
+            }
 
             for (int i = 0; i < width; i++)
             {

@@ -185,16 +185,16 @@ namespace Kuc_Ray
                 Console.WriteLine();
             }
             List<Object1> objectList = new List<Object1>();
-            objectList.Add(tr1);
-            Vector pos2 = new Vector(0, 0, -5);
+            //objectList.Add(tr1);
+            Vector pos2 = new Vector(8, -5, -6);
             Vector targ2 = new Vector(0, 0, 0);
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
 
             Mesh meszu = new Mesh();
-            meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\tr.obj");
-            
+            meszu = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\tr.obj");
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszu, "meszunew.jpg", 4);
         }
     }
 }

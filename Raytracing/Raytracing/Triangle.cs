@@ -56,6 +56,17 @@ namespace Kuc_Ray
             this.color = new LightIntensity(1, 1, 1);
         }
 
+        public Triangle(Vector vA, Vector vB, Vector vC, LightIntensity col)
+        {
+            this.vertexA = vA;
+            this.vertexB = vB;
+            this.vertexC = vC;
+            this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
+            this.normal.normalize();
+            this.color = col;
+        }
+
+
         public override string ToString()
         {
             return "(" + vertexA.X.ToString() + "," + vertexA.Y.ToString() + "," + vertexA.Z.ToString() + "), " + "(" + vertexB.X.ToString() + "," + vertexB.Y.ToString() + "," + vertexB.Z.ToString() + "), " + "(" + vertexC.X.ToString() + "," + vertexC.Y.ToString() + "," + vertexC.Z.ToString() + "), ";

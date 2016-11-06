@@ -67,15 +67,24 @@ namespace Kuc_Ray
 
                         }
                     }
+                    Random rnd = new Random();
+                    float v1, v2, v3;
+                    LightIntensity col = new LightIntensity();
                     for (int i = 0; i < TempFaces.Count; i += 3)
                     {
-
+                        v1 = (float)rnd.NextDouble();
+                        v2 = (float)rnd.NextDouble();
+                        v3 = (float)rnd.NextDouble();
+                        Console.WriteLine("v1: " + v1 + ", v2:" + v2 + ", v3: " + v3);
+                        col = new LightIntensity(v1, v2, v3);
+                        Console.WriteLine(col);
                         triangleList.Add(
                             new Triangle
                             (
                                 Vertices[(int)TempFaces[i].X-1],
                                 Vertices[(int)TempFaces[i+1].X - 1],
-                                Vertices[(int)TempFaces[i+2].X - 1]
+                                Vertices[(int)TempFaces[i+2].X - 1],
+                                col
                                 )
 
                             );
@@ -84,7 +93,7 @@ namespace Kuc_Ray
 
                 }
 
-                Console.WriteLine("Vertices:");
+               /* Console.WriteLine("Vertices:");
                 foreach (Vector ver in Vertices)
                 {
                     Console.WriteLine(ver);
@@ -103,7 +112,7 @@ namespace Kuc_Ray
                 foreach (Triangle ver in triangleList)
                 {
                     Console.WriteLine(ver);
-                }
+                }*/
             }
             return this;
             }
