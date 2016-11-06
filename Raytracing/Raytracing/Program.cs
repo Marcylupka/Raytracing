@@ -193,9 +193,9 @@ namespace Kuc_Ray
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
             List<Mesh> meszuList = new List<Mesh>();
             Mesh meszu = new Mesh();
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\s2.obj");
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\s3.obj");
             //meszuList.Add(meszu);
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "dwanew.jpg", 4);
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "dwadwanew.jpg", 4);
         }
     }
 }
