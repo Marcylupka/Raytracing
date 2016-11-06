@@ -193,8 +193,8 @@ namespace Kuc_Ray
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
 
             Mesh meszu = new Mesh();
-            meszu = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\tr.obj");
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszu, "meszunew.jpg", 4);
+            meszu = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\piramida.obj");
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszu, "pyramidnew.jpg", 4);
         }
     }
 }

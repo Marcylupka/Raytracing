@@ -37,14 +37,27 @@ namespace Kuc_Ray
                     string s = "";
                     while ((s = sr.ReadLine()) != null)
                     {
+                        //s = sr.ReadLine();
                         st = s.Split(' ');
                         if (st[0] == "v")
                         {
-                            Vector vect = new Vector();
-                            vect.X = float.Parse(st[1], CultureInfo.InvariantCulture.NumberFormat);
-                            vect.Y = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
-                            vect.Z = float.Parse(st[3], CultureInfo.InvariantCulture.NumberFormat);
-                            Vertices.Add(vect);
+                            if (st[1] != "")
+                            {
+                                Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3]);
+                                Vector vect = new Vector();
+                                vect.X = float.Parse(st[1], CultureInfo.InvariantCulture.NumberFormat);
+                                vect.Y = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
+                                vect.Z = float.Parse(st[3], CultureInfo.InvariantCulture.NumberFormat);
+                                Vertices.Add(vect);
+                            } else
+                            {
+                                Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3] + " " + st[4]);
+                                Vector vect = new Vector();
+                                vect.X = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
+                                vect.Y = float.Parse(st[3], CultureInfo.InvariantCulture.NumberFormat);
+                                vect.Z = float.Parse(st[4], CultureInfo.InvariantCulture.NumberFormat);
+                                Vertices.Add(vect);
+                            }
                         }
                         if (st[0] == "vn")
                         {
@@ -56,15 +69,31 @@ namespace Kuc_Ray
                         }
                         if (st[0] == "f")
                         {
-                            for (int i = 1; i < 4; i++) {
-                                sf = st[i].Split('/');
-                                Vector vect = new Vector();
-                                vect.X = float.Parse(sf[0], CultureInfo.InvariantCulture.NumberFormat);
-                                vect.Y = float.Parse(sf[1], CultureInfo.InvariantCulture.NumberFormat);
-                                vect.Z = float.Parse(sf[2], CultureInfo.InvariantCulture.NumberFormat);
-                                TempFaces.Add(vect);
+                            
+                                for (int i = 1; i < 4; i++)
+                                {
+                                    sf = st[i].Split('/');
+                                if (sf[1] != "" && i<4)
+                                {
+                                    //3 dane - wierzchołek/tekstura/normalna
+                                    Vector vect = new Vector();
+                                    vect.X = float.Parse(sf[0], CultureInfo.InvariantCulture.NumberFormat);
+                                    vect.Y = float.Parse(sf[1], CultureInfo.InvariantCulture.NumberFormat);
+                                    vect.Z = float.Parse(sf[2], CultureInfo.InvariantCulture.NumberFormat);
+                                    TempFaces.Add(vect);
+                                    //Console.WriteLine("3 dane:" + vect);
+                                } else if (sf[1]=="")
+                                {
+                                    //2 dane - wierzchołek//normalna
+                                    Vector vect = new Vector();
+                                    vect.X = float.Parse(sf[0], CultureInfo.InvariantCulture.NumberFormat);
+                                    vect.Y = 0f;
+                                    vect.Z = float.Parse(sf[2], CultureInfo.InvariantCulture.NumberFormat);
+                                    TempFaces.Add(vect);
+                                    //Console.WriteLine("2 dane:" + vect);
+                                }
+                                }
                             }
-
                         }
                     }
                     Random rnd = new Random();
@@ -75,9 +104,7 @@ namespace Kuc_Ray
                         v1 = (float)rnd.NextDouble();
                         v2 = (float)rnd.NextDouble();
                         v3 = (float)rnd.NextDouble();
-                        Console.WriteLine("v1: " + v1 + ", v2:" + v2 + ", v3: " + v3);
                         col = new LightIntensity(v1, v2, v3);
-                        Console.WriteLine(col);
                         triangleList.Add(
                             new Triangle
                             (
@@ -113,8 +140,7 @@ namespace Kuc_Ray
                 {
                     Console.WriteLine(ver);
                 }*/
-            }
-            return this;
+                        return this;
             }
     
     }
