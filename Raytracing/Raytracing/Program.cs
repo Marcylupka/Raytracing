@@ -165,7 +165,7 @@ namespace Kuc_Ray
              orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
              */
 
-            Vector tp1 = new Vector(0, 0, 0);
+            /*Vector tp1 = new Vector(0, 0, 0);
             Vector tp2 = new Vector(2, 0, 0);
             Vector tp3 = new Vector(1, 2, 0);
             //Triangle tr1 = new Triangle(tp1, tp3, tp2);
@@ -183,7 +183,7 @@ namespace Kuc_Ray
                 Console.WriteLine("Punkt przeciecia promienia z trojkatem: ");
                 Console.WriteLine(tpp);
                 Console.WriteLine();
-            }
+            }*/
             List<Object1> objectList = new List<Object1>();
             //objectList.Add(tr1);
             Vector pos2 = new Vector(8, -5, -6);
@@ -191,10 +191,11 @@ namespace Kuc_Ray
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
-
+            List<Mesh> meszuList = new List<Mesh>();
             Mesh meszu = new Mesh();
-            meszu = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\piramida.obj");
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszu, "pyramidnew.jpg", 4);
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\s2.obj");
+            //meszuList.Add(meszu);
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "dwanew.jpg", 4);
         }
     }
 }

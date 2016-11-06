@@ -17,7 +17,7 @@ namespace Kuc_Ray
             set { triangleList = value; }
         }
         
-        public Mesh parseOBJ(String filename)
+        public List<Mesh> parseOBJ(String filename)
         {
             triangleList = new List<Triangle>();
             List<Vector> Vertices = new List<Vector>();
@@ -29,7 +29,7 @@ namespace Kuc_Ray
             String[] sf;
             
 
-            Mesh resultMesh = new Mesh();
+            List<Mesh> resultMesh = new List<Mesh>();
             if (File.Exists(filename))
             {
                 using (StreamReader sr = File.OpenText(filename))
@@ -43,7 +43,7 @@ namespace Kuc_Ray
                         {
                             if (st[1] != "")
                             {
-                                Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3]);
+                                //Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3]);
                                 Vector vect = new Vector();
                                 vect.X = float.Parse(st[1], CultureInfo.InvariantCulture.NumberFormat);
                                 vect.Y = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -51,7 +51,7 @@ namespace Kuc_Ray
                                 Vertices.Add(vect);
                             } else
                             {
-                                Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3] + " " + st[4]);
+                                //Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3] + " " + st[4]);
                                 Vector vect = new Vector();
                                 vect.X = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
                                 vect.Y = float.Parse(st[3], CultureInfo.InvariantCulture.NumberFormat);
@@ -120,27 +120,28 @@ namespace Kuc_Ray
 
                 }
 
-               /* Console.WriteLine("Vertices:");
-                foreach (Vector ver in Vertices)
-                {
-                    Console.WriteLine(ver);
-                }
-                Console.WriteLine("Normals:");
-                foreach (Vector ver in Normals)
-                {
-                    Console.WriteLine(ver);
-                }
-                Console.WriteLine("Facets:");
-                foreach (Vector ver in TempFaces)
-                {
-                    Console.WriteLine(ver);
-                }
-                Console.WriteLine("Meszu:");
-                foreach (Triangle ver in triangleList)
-                {
-                    Console.WriteLine(ver);
-                }*/
-                        return this;
+            /* Console.WriteLine("Vertices:");
+             foreach (Vector ver in Vertices)
+             {
+                 Console.WriteLine(ver);
+             }
+             Console.WriteLine("Normals:");
+             foreach (Vector ver in Normals)
+             {
+                 Console.WriteLine(ver);
+             }
+             Console.WriteLine("Facets:");
+             foreach (Vector ver in TempFaces)
+             {
+                 Console.WriteLine(ver);
+             }
+             Console.WriteLine("Meszu:");
+             foreach (Triangle ver in triangleList)
+             {
+                 Console.WriteLine(ver);
+             }*/
+            resultMesh.Add(this);
+                        return resultMesh;
             }
     
     }
