@@ -32,6 +32,17 @@ namespace Kuc_Ray
                         if (so[0] == "o")
                         {
                             il++;
+                        } else if (so[0] == "#")
+                        {
+                            //Console.WriteLine(so[0]);
+                            if (so.Length > 1)
+                            {
+                                //Console.WriteLine(so[1]);
+                                if (so[1] == "object")
+                                {
+                                    il++;
+                                }
+                            }
                         }
                     }
                 }
@@ -75,9 +86,23 @@ namespace Kuc_Ray
                         {
                             nr++;
                         }
+                        if (st[0] == "#")
+                        {
+                            //Console.WriteLine(st[0]);
+                            if (st.Length > 1)
+                            {
+                                //Console.WriteLine(st[1]);
+                                if (st[1] == "object")
+                                {
+                                    nr++;
+                                }
+                            }
+                        }
+                        //Console.WriteLine(nr);
                             if (st[0] == "v")
                         {
-                            Console.WriteLine(nr);
+                            //Console.WriteLine("czytam wierzcholki");
+                            //Console.WriteLine(nr);
                             if (st[1] != "")
                             {
                                 //Console.WriteLine(st[0] + " " + st[1] + " " + st[2] + " " + st[3]);
@@ -98,6 +123,7 @@ namespace Kuc_Ray
                         }
                         if (st[0] == "vn")
                         {
+                            //Console.WriteLine("czytam normalne");
                             Vector vect = new Vector();
                             vect.X = float.Parse(st[1], CultureInfo.InvariantCulture.NumberFormat);
                             vect.Y = float.Parse(st[2], CultureInfo.InvariantCulture.NumberFormat);
@@ -106,8 +132,8 @@ namespace Kuc_Ray
                         }
                         if (st[0] == "f")
                         {
-                            
-                                for (int i = 1; i < 4; i++)
+                            //Console.WriteLine("czytam sciany");
+                            for (int i = 1; i < 4; i++)
                                 {
                                     sf = st[i].Split('/');
                                 if (sf[1] != "" && i<4)
@@ -139,6 +165,7 @@ namespace Kuc_Ray
                 for (int iln = 0; iln < il; iln++) {
                     for (int i = 0; i < tabTempFaces[iln].Count; i += 3)
                     {
+                        //Console.WriteLine("licze sciany");
                         //Console.WriteLine("iln: " + iln);
                         //Console.WriteLine("tabTempFaces[iln].Count: " + tabTempFaces[iln].Count);
                         v1 = (float)rnd.NextDouble();
@@ -182,8 +209,12 @@ namespace Kuc_Ray
              }*/
             for (int iln = 0; iln < il; iln++)
             {
+                //Console.WriteLine(il);
+                //Console.WriteLine(tabMesh[iln].triangleList.Count);
+                //Console.WriteLine("zapisuje meshe");
                 resultMesh.Add(tabMesh[iln]);
             }
+            //Console.WriteLine(resultMesh.Count);
                         return resultMesh;
             }
     

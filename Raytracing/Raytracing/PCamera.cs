@@ -322,6 +322,10 @@ namespace Kuc_Ray
 
         public void reg_object_render_scene(int width, int height, List<Object1> objectList, List<Mesh> meszuList, String name, int gridSize)
         {
+            Console.WriteLine();
+            Console.WriteLine();
+            //Console.WriteLine("renderowanie");
+            Console.WriteLine();
             float gridStep = 1.0f / gridSize;
             Picture img = new Picture(width, height);
 
@@ -344,7 +348,7 @@ namespace Kuc_Ray
 
             int am = 0;
             float dd = 0;
-            float dist = 0;
+            //float dist = 0;
             Vector pp1 = new Vector(0, 0, 0);
             Vector pp2 = new Vector(0, 0, 0);
 
@@ -352,7 +356,7 @@ namespace Kuc_Ray
             float tanFov2 = (float)Math.Tan(radFov / 2f);
 
             LightIntensity backColor = new LightIntensity(0, 0, 0);
-            int it = 1;
+            //int it = 1;
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -374,9 +378,11 @@ namespace Kuc_Ray
             {
                 foreach (Triangle t in meszu.TriangleList)
                 {
+                    //Console.WriteLine("przeksztalcam trojkaty w obiekty");
                     objectList.Add(t);
                 }
             }
+            //Console.WriteLine(objectList.Count);
 
             for (int i = 0; i < width; i++)
             {
@@ -384,8 +390,11 @@ namespace Kuc_Ray
                 {
                     if (objectList != null)
                     {
-                        foreach (Object1 object1 in objectList)
+                        //foreach (Object1 object1 in objectList)
+                            for (int ilo = 0; ilo<(objectList.Count); ilo++)
                         {
+                            Object1 object1 = objectList[ilo];
+                            //Console.WriteLine(ilo);
                             //LightIntensity coloral = sphere.Color;
                             float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
                             float ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
@@ -401,12 +410,14 @@ namespace Kuc_Ray
                             }
                             Vector rayDirection = u * ijx + v * ijy + w * (-distance);
                             Ray ray = new Ray(this.position, rayDirection);
+                            //Console.WriteLine("licze przeciecie ray: " + i + ", " + j);
                             //LightIntensity pxa = backColor;
                             //LightIntensity pxb = backColor;
                             //LightIntensity pxc = backColor;
                             //LightIntensity pxd = backColor;
                             if (object1.Intersect(ray, ref am, ref pp1, ref dd) == true)
                             {
+                                //Console.WriteLine("licze antialiasing");
                                 LightIntensity pxAA = new LightIntensity();
                                 float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
                                 if (dis < zBuffer[i, j])
