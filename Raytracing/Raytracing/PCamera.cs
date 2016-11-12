@@ -9,6 +9,8 @@ namespace Kuc_Ray
 {
     class PCamera
     {
+        private Vector u, v, w;
+
         private Vector position;
         public Vector Position
         {
@@ -71,6 +73,15 @@ namespace Kuc_Ray
             this.nearPlane = 1;
             this.farPlane = 1000;
             this.up = new Vector(0, 1, 0);
+
+            this.w = this.position - this.target;
+            this.w.normalize();
+            float distance = w.length;
+            this.u = (this.up).cross(w);
+            this.u.normalize();
+            this.v = w.cross(u);
+            this.u.negate();
+
         }
         /*
          * public void render_scene(int width, int height, List<Sphere> sphereList, List<Plain> plainList, String name)
@@ -115,6 +126,7 @@ namespace Kuc_Ray
 
             Vector w = this.position - this.target;
             w.normalize();
+
             float distance = w.length;
             Vector u = (this.up).cross(w);
             u.normalize();
@@ -300,7 +312,7 @@ namespace Kuc_Ray
                                     for (int k = 0; k < gridSize; k++)
                                     {
                                         for (int l = 0; l < gridSize; l++)
-                                        {
+                                        {`
                                             pxAA.add(amountAA[k, l]);
                                         }
                                     }
@@ -319,6 +331,88 @@ namespace Kuc_Ray
             }
             img.Obraz.Save(name);
         }*/
+
+        public LightIntensity sampling(float xc, float yc, float pw, float ph, ref List<Object1> objectList, int lvl, ref float dist)
+        {
+
+
+            Vector[] verts = new Vector[4];
+            LightIntensity[] colors  = new LightIntensity[4];
+            verts[0] = new Vector((xc - (0.5f * pw)), (yc + (0.5f * ph)), 0);
+            verts[1] = new Vector((xc + (0.5f * pw)), (yc + (0.5f * ph)), 0);
+            verts[2] = new Vector((xc + (0.5f * pw)), (yc - (0.5f * ph)), 0);
+            verts[3] = new Vector((xc - (0.5f * pw)), (yc - (0.5f * ph)), 0);
+           
+            for (int i=0; i<4; i++)
+            {
+                colors[i] = new LightIntensity(0, 0, 0);
+            } 
+
+            int am = 0;
+            Vector pp1 = new Vector(0, 0, 0);
+            float minDist = 1000f;
+            for (int i = 0; i < 4; i++)
+            {
+                Object1 objectHit = null;
+
+
+                Vector rayDirection = u * verts[i].X + v * verts[i].Y + w * (-1);
+                Ray ray = new Ray(this.position, rayDirection);
+
+                foreach (Object1 obj in objectList)
+                {
+                    if (obj.Intersect(ray, ref am, ref pp1, ref dist) == true)
+                    {
+                        if (dist < minDist)
+                        {
+                            objectHit = obj;
+                            minDist = dist;
+
+                        }
+                    }
+                }
+                if (objectHit != null) colors[i] = objectHit.Color;
+                else colors[i] = new LightIntensity(0, 0, 0);
+            }
+
+            bool similar = ((contrastFunc(colors[0], colors[1], 0.00005f)) && (contrastFunc(colors[0], colors[2], 0.00005f)) && (contrastFunc(colors[0], colors[3], 0.00005f)) && (contrastFunc(colors[1], colors[2], 0.00005f)) && (contrastFunc(colors[1], colors[3], 0.00005f)) && (contrastFunc(colors[2], colors[3], 0.00005f)));
+            if (lvl >= 2  ||  similar)
+            {
+                LightIntensity col = new LightIntensity(0, 0, 0);
+                for (int k = 0; k < 4; k++)
+                {
+                    col.R += colors[k].R;
+                    col.G += colors[k].G;
+                    col.B += colors[k].B;
+                }
+                col.R /= 4;
+                col.G /= 4;
+                col.B /= 4;
+                return col;
+            } else
+            {
+                verts[0] = new Vector((xc - (0.25f * pw)), (yc + (0.25f * ph)), 0);
+                verts[1] = new Vector((xc + (0.25f * pw)), (yc + (0.25f * ph)), 0);
+                verts[2] = new Vector((xc + (0.25f * pw)), (yc - (0.25f * ph)), 0);
+                verts[3] = new Vector((xc - (0.25f * pw)), (yc - (0.25f * ph)), 0);
+                for (int g=0; g<4; g++)
+                {
+                    colors[g] = sampling(verts[g].X, verts[g].Y, pw / 2, ph / 2, ref objectList, lvl + 1, ref dist);
+                }
+                LightIntensity col = new LightIntensity(0, 0, 0);
+                for (int k = 0; k < 4; k++)
+                {
+                    col.R += colors[k].R;
+                    col.G += colors[k].G;
+                    col.B += colors[k].B;
+                }
+                col.R /= 4;
+                col.G /= 4;
+                col.B /= 4;
+                return col;
+            }
+            return new LightIntensity(0, 0, 0);
+        }
 
         public void reg_object_render_scene(int width, int height, List<Object1> objectList, List<Mesh> meszuList, String name, int gridSize)
         {
@@ -352,11 +446,14 @@ namespace Kuc_Ray
             Vector pp1 = new Vector(0, 0, 0);
             Vector pp2 = new Vector(0, 0, 0);
 
+
             float radFov = this.fov * (float)Math.PI / 180f;
             float tanFov2 = (float)Math.Tan(radFov / 2f);
 
             LightIntensity backColor = new LightIntensity(0, 0, 0);
             //int it = 1;
+
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -365,13 +462,7 @@ namespace Kuc_Ray
                 }
             }
 
-            Vector w = this.position - this.target;
-            w.normalize();
-            float distance = w.length;
-            Vector u = (this.up).cross(w);
-            u.normalize();
-            Vector v = w.cross(u);
-            u.negate();
+
 
             float aspectRatio = (float)width / (float)height * 1.0f;
             foreach (Mesh meszu in meszuList)
@@ -384,112 +475,48 @@ namespace Kuc_Ray
             }
             //Console.WriteLine(objectList.Count);
 
+
             for (int i = 0; i < width; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
                     if (objectList != null)
                     {
-                        //foreach (Object1 object1 in objectList)
-                            for (int ilo = 0; ilo<(objectList.Count); ilo++)
+                        float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
+                        float ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
+                        if (aspectRatio >= 1)
                         {
-                            Object1 object1 = objectList[ilo];
-                            //Console.WriteLine(ilo);
-                            //LightIntensity coloral = sphere.Color;
-                            float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
-                            float ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
-                            if (aspectRatio >= 1)
-                            {
-                                ijx = ((2f * (i + 0.5f) * aspectRatio / (float)width) - 1f) * tanFov2;
-                                ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
-                            }
-                            else
-                            {
-                                ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
-                                ijy = (1f - (2f * (j + 0.5f) / aspectRatio / (float)height)) * tanFov2;
-                            }
-                            Vector rayDirection = u * ijx + v * ijy + w * (-distance);
-                            Ray ray = new Ray(this.position, rayDirection);
-                            //Console.WriteLine("licze przeciecie ray: " + i + ", " + j);
-                            //LightIntensity pxa = backColor;
-                            //LightIntensity pxb = backColor;
-                            //LightIntensity pxc = backColor;
-                            //LightIntensity pxd = backColor;
-                            if (object1.Intersect(ray, ref am, ref pp1, ref dd) == true)
-                            {
-                                //Console.WriteLine("licze antialiasing");
-                                LightIntensity pxAA = new LightIntensity();
-                                float dis = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                if (dis < zBuffer[i, j])
-                                {
-                                    LightIntensity[,] amountAA = new LightIntensity[gridSize, gridSize];
-                                    float[,] zBufferAA = new float[gridSize, gridSize];
-                                    for (int i2 = 0; i2 < gridSize; i2++)
-                                    {
-                                        for (int j2 = 0; j2 < gridSize; j2++)
-                                        {
-                                            amountAA[i2, j2] = new LightIntensity();
-                                            zBufferAA[i2, j2] = (float)Double.PositiveInfinity;
-                                        }
-                                    }
-                                    foreach (Object1 objectAA in objectList)
-                                    {
-
-                                            LightIntensity pxe = objectAA.Color;
-                                            for (int k = 0; k < gridSize; k++)
-                                            {
-                                                for (int l = 0; l < gridSize; l++)
-                                                {
-                                                    if (aspectRatio >= 1)
-                                                    {
-                                                        ijx = ((2f * (i + k * gridStep) * aspectRatio / (float)width) - 1f) * tanFov2;
-                                                        ijy = (1f - (2f * (j + l * gridStep) / (float)height)) * tanFov2;
-                                                    }
-                                                    else
-                                                    {
-                                                        ijx = ((2f * (i + k * gridStep) / (float)width) - 1f) * tanFov2;
-                                                        ijy = (1f - (2f * (j + l * gridStep) / aspectRatio / (float)height)) * tanFov2;
-                                                    }
-                                                    Vector rayAADirection = u * ijx + v * ijy + w * (-distance);
-                                                    Ray rayAA = new Ray(this.position, rayAADirection);
-                                                    if (objectAA.Intersect(rayAA, ref am, ref pp1, ref dd) == true)
-                                                    {
-                                                        float disAA = (float)Math.Sqrt(((pp1.Z - this.position.Z) * (pp1.Z - this.position.Z)) + ((pp1.Y - this.position.Y) * (pp1.Y - this.position.Y)) + ((pp1.X - this.position.X) * (pp1.X - this.position.X)));
-                                                        if (disAA < zBufferAA[k, l])
-                                                        {
-                                                            amountAA[k, l] = pxe;
-                                                            zBufferAA[k, l] = disAA;
-                                                        }
-                                                        //foundIntersection = true;
-                                                    }
-                                                    // if (!foundIntersection) amountAA[k, l] = backColor;
-                                                }
-                                            }
-                                    }
-                                    for (int k = 0; k < gridSize; k++)
-                                    {
-                                        for (int l = 0; l < gridSize; l++)
-                                        {
-                                            pxAA.add(amountAA[k, l]);
-                                        }
-                                    }
-                                    //Console.WriteLine(pxAA.R + "," + pxAA.G + "," + pxAA.B);
-                                    //img.setPixel(i, j, pxAA);
-                                    pxAA.div(gridSize * gridSize);
-                                    //Console.WriteLine(pxAA.R + "," + pxAA.G + "," + pxAA.B);
-                                    img.setPixel(i, j, pxAA);
-                                    zBuffer[i, j] = dis;
-                                }
-                            }
+                            ijx = ((2f * (i + 0.5f) * aspectRatio / (float)width) - 1f) * tanFov2;
+                            ijy = (1f - (2f * (j + 0.5f) / (float)height)) * tanFov2;
                         }
-                    }
+                        else
+                        {
+                            ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;
+                            ijy = (1f - (2f * (j + 0.5f) / aspectRatio / (float)height)) * tanFov2;
+                        }
 
+                        LightIntensity tmp = sampling(ijx, ijy, (1f / (float)width), (1f / (float)height), ref objectList, 0, ref dd);
+
+                        img.setPixel(i, j, tmp);
+
+
+                    }
                 }
             }
+
             img.Obraz.Save(name);
         }
 
-        public Boolean contrastFunc(LightIntensity a, LightIntensity b, LightIntensity c, LightIntensity d, float contrast)
+        public Boolean contrastFunc(LightIntensity a, LightIntensity b, float contrast)
+        {
+            if (((Math.Abs(a.R - b.R)) < contrast) && ((Math.Abs(a.G - b.G)) < contrast) && ((Math.Abs(a.B - b.B)) < contrast))
+            {
+                return true;
+            }
+            else return false;
+        }
+
+        /*public Boolean contrastFunc(LightIntensity a, LightIntensity b, LightIntensity c, LightIntensity d, float contrast)
         {
             if (((Math.Abs(a.R - b.R)) < contrast) && ((Math.Abs(a.G - b.G)) < contrast) && ((Math.Abs(a.B - b.B)) < contrast) && ((Math.Abs(a.R - c.R)) < contrast) && ((Math.Abs(a.G - c.G)) < contrast) && ((Math.Abs(a.B - c.B)) < contrast) &&
                 ((Math.Abs(a.R - d.R)) < contrast) && ((Math.Abs(d.G - b.G)) < contrast) && ((Math.Abs(b.B - c.B)) < contrast) && ((Math.Abs(b.R - c.R)) < contrast) && ((Math.Abs(b.G - c.G)) < contrast) && ((Math.Abs(b.B - c.B)) < contrast) &&
@@ -498,7 +525,7 @@ namespace Kuc_Ray
                 return true;
             }
             else return false;
-        }
+        }*/
 
         /*public void adaptive_aa_render_scene(int width, int height, List<Object> objectList, String name, int gridSize)
         {
@@ -794,100 +821,100 @@ namespace Kuc_Ray
                                             img.setPixel(i, j, pxAA);
                                             zBuffer[i, j] = dis;
                                         }*/
-                                    /*}
-                            }
-                        }
+        /*}
+}
+}
 
-                    }
-                }
-            }
-            img.Obraz.Save(name);
-        }
+}
+}
+}
+img.Obraz.Save(name);
+}
 
-        public LightIntensity adaptationSampling(float pixelLeft, float pixelRight, float pixelTop, float pixelBottom, float pixelCenterX, float pixelCenterY,
-                                         LightIntensity colorC, LightIntensity colorE, short i, short j, Object1 object1, Image image)
-        {
-            return;
-            /*short maxIteration = 4;
-            this.samplingIteration++;
+public LightIntensity adaptationSampling(float pixelLeft, float pixelRight, float pixelTop, float pixelBottom, float pixelCenterX, float pixelCenterY,
+             LightIntensity colorC, LightIntensity colorE, short i, short j, Object1 object1, Image image)
+{
+return;
+/*short maxIteration = 4;
+this.samplingIteration++;
 
-            //ustalamy nowe wartosci dla malego kwadracika
-            pixelLeft = pixelCenterX;
-            pixelBottom = pixelCenterY;
-            pixelCenterX = (float)(pixelLeft + (pixelRight - pixelLeft) / 2.0);
-            pixelCenterY = (float)(pixelBottom + (pixelTop - pixelBottom) / 2.0);
-            LightIntensity colorA = colorE;
-            LightIntensity colorB = new LightIntensity();
-            LightIntensity colorD = new LightIntensity();
+//ustalamy nowe wartosci dla malego kwadracika
+pixelLeft = pixelCenterX;
+pixelBottom = pixelCenterY;
+pixelCenterX = (float)(pixelLeft + (pixelRight - pixelLeft) / 2.0);
+pixelCenterY = (float)(pixelBottom + (pixelTop - pixelBottom) / 2.0);
+LightIntensity colorA = colorE;
+LightIntensity colorB = new LightIntensity();
+LightIntensity colorD = new LightIntensity();
 
-            Vector G = new Vector(pixelRight * this.u.getX() + pixelBottom * this.v.getX() + 0,
-                                    pixelRight * this.u.getY() + pixelBottom * this.v.getY() + 0,
-                                    pixelRight * this.u.getZ() + pixelBottom * this.v.getZ() + 0);
+Vector G = new Vector(pixelRight * this.u.getX() + pixelBottom * this.v.getX() + 0,
+        pixelRight * this.u.getY() + pixelBottom * this.v.getY() + 0,
+        pixelRight * this.u.getZ() + pixelBottom * this.v.getZ() + 0);
 
-            Vector F = new Vector(pixelLeft * this.u.getX() + pixelTop * this.v.getX() + 0,
-                                    pixelLeft * this.u.getY() + pixelTop * this.v.getY() + 0,
-                                    pixelLeft * this.u.getZ() + pixelTop * this.v.getZ() + 0);
+Vector F = new Vector(pixelLeft * this.u.getX() + pixelTop * this.v.getX() + 0,
+        pixelLeft * this.u.getY() + pixelTop * this.v.getY() + 0,
+        pixelLeft * this.u.getZ() + pixelTop * this.v.getZ() + 0);
 
-            Vector H = new Vector(pixelCenterX * this.u.getX() + pixelCenterY * this.v.getX() + 0,
-                                    pixelCenterX * this.u.getY() + pixelCenterY * this.v.getY() + 0,
-                                    pixelCenterX * this.u.getZ() + pixelCenterY * this.v.getZ() + 0);
+Vector H = new Vector(pixelCenterX * this.u.getX() + pixelCenterY * this.v.getX() + 0,
+        pixelCenterX * this.u.getY() + pixelCenterY * this.v.getY() + 0,
+        pixelCenterX * this.u.getZ() + pixelCenterY * this.v.getZ() + 0);
 
-            Ray rayG = new Ray(G, this.direction);
-            Ray rayF = new Ray(F, this.direction);
-            Ray rayH = new Ray(H, this.direction);
+Ray rayG = new Ray(G, this.direction);
+Ray rayF = new Ray(F, this.direction);
+Ray rayH = new Ray(H, this.direction);
 
-            Vector pointG = new Vector();
-            Vector pointF = new Vector();
-            Vector pointH = new Vector();
-            if (object.getClass().getName() == "Sphere")
-            {
-                pointG = ((Sphere)object).intersectSphere(rayG);
-                pointF = ((Sphere)object).intersectSphere(rayF);
-                pointH = ((Sphere)object).intersectSphere(rayH);
-            }
-            else if (object.getClass().getName() == "Plane")
-            {
-                pointG = ((Plane)object).intersectPlane(rayG);
-                pointF = ((Plane)object).intersectPlane(rayF);
-                pointH = ((Plane)object).intersectPlane(rayH);
-            }
+Vector pointG = new Vector();
+Vector pointF = new Vector();
+Vector pointH = new Vector();
+if (object.getClass().getName() == "Sphere")
+{
+pointG = ((Sphere)object).intersectSphere(rayG);
+pointF = ((Sphere)object).intersectSphere(rayF);
+pointH = ((Sphere)object).intersectSphere(rayH);
+}
+else if (object.getClass().getName() == "Plane")
+{
+pointG = ((Plane)object).intersectPlane(rayG);
+pointF = ((Plane)object).intersectPlane(rayF);
+pointH = ((Plane)object).intersectPlane(rayH);
+}
 
 
-            if (pointG != null) { colorB = lightIntensity; }
-            else { colorB = image.getPixel(i, j); }
-            if (pointF != null) { colorD = lightIntensity; }
-            else { colorD = image.getPixel(i, j); }
-            if (pointH != null) { colorE = lightIntensity; }
-            else { colorE = image.getPixel(i, j); }
+if (pointG != null) { colorB = lightIntensity; }
+else { colorB = image.getPixel(i, j); }
+if (pointF != null) { colorD = lightIntensity; }
+else { colorD = image.getPixel(i, j); }
+if (pointH != null) { colorE = lightIntensity; }
+else { colorE = image.getPixel(i, j); }
 
-            if (colorA.isEqualContrast(colorB, colorC, colorD))
-            {
-                LightIntensity result = new LightIntensity();
-                result.setR((float)((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                result.setG((float)((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                result.setB((float)((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                return result;
-            }
-            else
-            {
-                if (this.samplingIteration < maxIteration)
-                {
-                    LightIntensity result = this.adaptationSampling(pixelLeft, pixelRight, pixelTop, pixelBottom, pixelCenterX, pixelCenterY, colorC, colorE, lightIntensity, i, j, object, image);
-                    result.setR((float)(result.getR() + ((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
-                    result.setG((float)(result.getG() + ((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
-                    result.setB((float)(result.getB() + ((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
-                    return result;
-                }
-                else
-                {
-                    LightIntensity result = new LightIntensity();
-                    result.setR((float)((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                    result.setG((float)((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                    result.setB((float)((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
-                    return result;
-                }
-            }
-            */
+if (colorA.isEqualContrast(colorB, colorC, colorD))
+{
+LightIntensity result = new LightIntensity();
+result.setR((float)((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+result.setG((float)((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+result.setB((float)((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+return result;
+}
+else
+{
+if (this.samplingIteration < maxIteration)
+{
+LightIntensity result = this.adaptationSampling(pixelLeft, pixelRight, pixelTop, pixelBottom, pixelCenterX, pixelCenterY, colorC, colorE, lightIntensity, i, j, object, image);
+result.setR((float)(result.getR() + ((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
+result.setG((float)(result.getG() + ((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
+result.setB((float)(result.getB() + ((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 3.0) / 8.0 / (Math.pow(4.0, this.samplingIteration)))));
+return result;
+}
+else
+{
+LightIntensity result = new LightIntensity();
+result.setR((float)((colorA.getR() + colorB.getR() + colorC.getR() + colorD.getR() + colorE.getR() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+result.setG((float)((colorA.getG() + colorB.getG() + colorC.getG() + colorD.getG() + colorE.getG() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+result.setB((float)((colorA.getB() + colorB.getB() + colorC.getB() + colorD.getB() + colorE.getB() * 4.0) / 8.0 / (Math.pow(4.0, this.samplingIteration))));
+return result;
+}
+}
+*/
         //}
 
     }

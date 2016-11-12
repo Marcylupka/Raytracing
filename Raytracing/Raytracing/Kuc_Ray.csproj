@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Material.cs" />
     <Compile Include="Mesh.cs" />
     <Compile Include="Object1.cs" />
     <Compile Include="OCamera.cs" />
