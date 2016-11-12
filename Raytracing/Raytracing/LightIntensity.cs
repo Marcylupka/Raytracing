@@ -54,6 +54,13 @@ namespace Kuc_Ray
             this.b = 0;
         }
 
+        public LightIntensity (LightIntensity source)
+        {
+            this.r = source.r;
+            this.b = source.b;
+            this.g = source.g;
+        }
+
         /*public Vector convertToVector ()
         {
             return (this * 255);

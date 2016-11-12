@@ -72,7 +72,7 @@ namespace Kuc_Ray
             return "(" + vertexA.X.ToString() + "," + vertexA.Y.ToString() + "," + vertexA.Z.ToString() + "), " + "(" + vertexB.X.ToString() + "," + vertexB.Y.ToString() + "," + vertexB.Z.ToString() + "), " + "(" + vertexC.X.ToString() + "," + vertexC.Y.ToString() + "," + vertexC.Z.ToString() + "), ";
         }
 
-        public override bool Intersect(Ray ray,ref int am, ref Vector crossP, ref float dist)
+        /*public override bool Intersect(Ray ray,ref int am, ref Vector crossP, ref float dist)
         {
             Plain plainTr = new Plain(this.vertexA, this.normal);
             float dis = 0.0f;
@@ -117,8 +117,44 @@ namespace Kuc_Ray
                 }
             }
 
+        }*/
+        //barycentryczne
+        public override bool Intersect(Ray ray, ref int am, ref Vector crossP, ref float dist)
+        {
+            Vector e1 = this.vertexB - this.vertexA;
+            Vector e2 = this.vertexC - this.vertexA;
+
+            Vector p = ray.Direction.cross(e2);
+            float det = e1.dot(p); // wyznacznik macierzy
+
+            if (det > -0.00005 && det > 0.00005)
+                return false;
+
+            float iDet = 1f / det;
+
+            Vector t = ray.Origin - this.vertexA;
+            float m_u = (t.dot(p) * iDet);
+            if (m_u < 0 || m_u > 1) return false;
+
+            Vector q = t.cross(e1);
+
+            float m_v = (ray.Direction.dot(q) * iDet);
+            if (m_v < 0 || m_u + m_v > 1) return false;
+
+            float m_w = (e2.dot(q) * iDet);
+
+            if (m_w > 0.00005)
+            {
+                crossP = ray.Origin + ray.Direction * m_w;
+                am = 1;
+                dist = m_w;
+                return true;
+            }
+
+            return false;
+
         }
 
 
-        }
+    }
 }

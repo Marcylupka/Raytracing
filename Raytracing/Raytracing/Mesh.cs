@@ -162,25 +162,24 @@ namespace Kuc_Ray
                     Random rnd = new Random();
                     float v1, v2, v3;
                     LightIntensity col = new LightIntensity();
-                for (int iln = 0; iln < il; iln++) {
-                    for (int i = 0; i < tabTempFaces[iln].Count; i += 3)
-                    {
-                        //Console.WriteLine("licze sciany");
-                        //Console.WriteLine("iln: " + iln);
-                        //Console.WriteLine("tabTempFaces[iln].Count: " + tabTempFaces[iln].Count);
+                    for (int iln = 0; iln < il; iln++) {
+                        for (int i = 0; i < tabTempFaces[iln].Count; i += 3)
+                        {
                         v1 = (float)rnd.NextDouble();
                         v2 = (float)rnd.NextDouble();
                         v3 = (float)rnd.NextDouble();
-                        col = new LightIntensity(v1, v2, v3);
-                        tabMesh[iln].triangleList.Add(
-                            new Triangle
-                            (
-                                Vertices[(int)tabTempFaces[iln][i].X - 1],
-                                Vertices[(int)tabTempFaces[iln][i + 1].X - 1],
-                                Vertices[(int)tabTempFaces[iln][i + 2].X - 1],
-                                col
-                                )
-
+                        //v1 = 0.5f;
+                        //v2 = 1f;
+                        //v3 = 0f;
+                            col = new LightIntensity(v1, v2, v3);
+                            tabMesh[iln].triangleList.Add(
+                                new Triangle
+                                    (
+                                    Vertices[(int)tabTempFaces[iln][i].X - 1],
+                                    Vertices[(int)tabTempFaces[iln][i + 1].X - 1],
+                                    Vertices[(int)tabTempFaces[iln][i + 2].X - 1],
+                                    col
+                                    )
                             );
                     }
                     }

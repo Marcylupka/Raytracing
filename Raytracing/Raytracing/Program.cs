@@ -187,7 +187,7 @@ namespace Kuc_Ray
             List<Object1> objectList = new List<Object1>();
             //objectList.Clear();
             //objectList.Add(tr1);
-            Vector pos2 = new Vector(8, -5, -6);
+            Vector pos2 = new Vector(8, -2, -8);
             Vector targ2 = new Vector(0, 0, 0);
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
@@ -195,11 +195,11 @@ namespace Kuc_Ray
             List<Mesh> meszuList = new List<Mesh>();
             Mesh meszu = new Mesh();
             //meszuList.Clear();
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\tea_bez.obj");
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\s3.obj");
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "teapot.jpg", 4);
+            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "s3_bary2.jpg", 4);
         }
     }
 }
