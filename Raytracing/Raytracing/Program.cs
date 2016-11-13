@@ -187,22 +187,29 @@ namespace Kuc_Ray
             List<Object1> objectList = new List<Object1>();
             //objectList.Clear();
             //objectList.Add(tr1);
-            Vector pos2 = new Vector(8, -2, -8);
-            Vector targ2 = new Vector(0, 0, 0);
+            Vector pos2 = new Vector(8, -2, -10);
+            Vector targ2 = new Vector(0f, 0f, 0f);
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
             List<Mesh> meszuList = new List<Mesh>();
             Mesh meszu = new Mesh();
             //meszuList.Clear();
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\s3.obj");
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Sphere0.obj");
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            PointLight light = new PointLight(new Vector(1, 0, -0.5f), new LightIntensity(1, 1, 1));
+            PointLight light1 = new PointLight(new Vector(-4, -4, -5), new LightIntensity(1f, 1f, 1f));
+            PointLight light2 = new PointLight(new Vector(4,4,5), new LightIntensity(1f, 1f, 1f));
+            //PointLight light = new PointLight(new Vector(-4, -4, -4f), new LightIntensity(0f, 1f, 0f));
             //List<PointLight> lights = new List<PointLight>;
             //lights.Add(light);
-            perspCamera2.aa_object_render_scene(1000, 1000, objectList, meszuList, "s3_swiatlo1.jpg", 4, light);
+            //Triangle swiatlo = new Triangle(new Vector(-4, -4, -4f), new Vector(-5, -7, -10), new Vector(-3, 0, -3), new LightIntensity(1, 1, 1));
+            //Sphere swiatlo = new Sphere(new Vector(-4f, -4f, -4f), 7f, new LightIntensity(1f, 1f, 1f));
+            //objectList.Add(swiatlo);
+            List<PointLight> lights = new List<PointLight>;
+            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "swiatlo.jpg", 4, lights);
+
         }
     }
 }

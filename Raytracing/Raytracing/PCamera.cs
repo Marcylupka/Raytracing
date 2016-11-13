@@ -151,7 +151,7 @@ namespace Kuc_Ray
                 //if (objectHit != null) colors[i] = objectHit.Color;
                 if (objectHit != null)
                 {
-                    LightIntensity pc = new LightIntensity(0, 0, 0);
+                    /*LightIntensity pc = new LightIntensity(0, 0, 0);
                     LightIntensity ia = new LightIntensity(0.01f, 0, 0.02f);
                     LightIntensity id = new LightIntensity(1f, 1, 1f);
                     LightIntensity iss = new LightIntensity(1f, 1, 1f);
@@ -179,9 +179,46 @@ namespace Kuc_Ray
                     H.normalize();
                     float nh = (float)Math.Pow((double)trHit.Normal.dot(H), 2 * 4);
                     pc = ia + id * LdotN * objectHit.mat.Color * objectHit.mat.KDiffuse + pl.Color * nh * objectHit.mat.KSpecular;
-                    colors[i] += pc;
+                    colors[i] += pc;*/
+                    //if (objectHit.name == "tr")
+                    //{
+                        Triangle trHit = (Triangle)objectHit;
+                        Vector Vector1 = new Vector();
+                        Vector1.X = trHit.VertexA.X - trHit.VertexB.X;
+                        Vector1.Y = trHit.VertexA.Y - trHit.VertexB.Y;
+                        Vector1.Z = trHit.VertexA.Z - trHit.VertexB.Z;
+                        Vector Vector2 = new Vector();
+                        Vector2.X = trHit.VertexB.X - trHit.VertexC.X;
+                        Vector2.Y = trHit.VertexB.Y - trHit.VertexC.Y;
+                        Vector2.Z = trHit.VertexB.Z - trHit.VertexC.Z;
+                        trHit.Normal.X = Vector1.Y * Vector2.Z - Vector1.Z * Vector2.Y;
+                        trHit.Normal.Y = Vector1.Z * Vector2.X - Vector1.X * Vector2.Z;
+                        trHit.Normal.Z = Vector1.X * Vector2.Y - Vector1.Y * Vector2.X;
+                        trHit.Normal.normalize();
+                    //} else/
+                    /*
+                    if (objectHit.name == "sph")
+                    {
+                        Sphere trHit = (Sphere)objectHit;
+                        trHit.Normal = (pp1 - trHit.Center);
+                        trHit.Normal.normalize();
+                    //}*/
+                    Vector inDirection = (pl.Location - pp1);
+                    inDirection.normalize();
+                    float diffuseFactor = inDirection.dot(trHit.Normal);
+                    if (diffuseFactor < 0) { return new LightIntensity(0, 0, 0); }
+                    LightIntensity result = (pl.Color * objectHit.mat.Color * diffuseFactor * objectHit.mat.KDiffuse) * (1f / 2f);
+                    float phongFactor = 0;
+                    Vector reflected = inDirection.reflect(trHit.Normal);
+                    ray.Direction.normalize();
+                    float cosAngle = reflected.dot(-ray.Direction);
+                    if (cosAngle <= 0) phongFactor = 0;
+                    else phongFactor = (float)Math.Pow(cosAngle, objectHit.mat.SpecularExponent);
+                    if (phongFactor != 0) { 
+                     result += (objectHit.mat.Color * objectHit.mat.KSpecular * phongFactor)*(1f/2f);
+                     colors[i] += result; }
+                    else colors[i] = new LightIntensity(0, 0, 0);
                 }
-
                 else colors[i] = new LightIntensity(0, 0, 0);
             }
 

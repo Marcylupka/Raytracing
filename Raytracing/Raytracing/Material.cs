@@ -36,26 +36,12 @@ namespace Kuc_Ray
             set { kSpecular = value; }
         }
 
-        /* private float[] kAmbient = new float[3];
-         public float[] KAmbient
-         {
-             get { return kAmbient; }
-             set { kAmbient = value; }
-         }
-
-         private float[] kDiffuse = new float[3];
-         public float[] KDiffuse
-         {
-             get { return kDiffuse; }
-             set { kDiffuse = value; }
-         }
-
-         private float[] kSpecular = new float[3];
-         public float[] KSpecular
-         {
-             get { return kSpecular; }
-             set { kSpecular = value; }
-         }*/
+        private float specularExponent;
+        public float SpecularExponent
+        {
+            get { return specularExponent; }
+            set { specularExponent = value; }
+        }
 
         private float alpha;
         public float Alpha
@@ -92,6 +78,7 @@ namespace Kuc_Ray
             this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
             this.alpha = 100;
             this.hasTexture = false;
+            this.specularExponent = 30;
         }
 
         public Material(LightIntensity col)
@@ -108,6 +95,7 @@ namespace Kuc_Ray
             this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
             this.alpha = 100;
             this.hasTexture = false;
+            this.specularExponent = 30;
         }
     }
 }

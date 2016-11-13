@@ -13,6 +13,13 @@ namespace Kuc_Ray
             return this.type;
         }*/
 
+        public String name;
+        public String Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         private Vector center;
         public Vector Center
         {
@@ -33,7 +40,7 @@ namespace Kuc_Ray
             this.radius = 1;
             this.color = new LightIntensity(1, 1, 1);
             this.mat = new Material();
-
+            this.name = "sph";
         }
 
         public Sphere (Vector c, float r, LightIntensity col)
@@ -42,6 +49,7 @@ namespace Kuc_Ray
             this.radius = r;
             this.color = col;
             this.mat = new Material();
+            this.name = "sph";
         }
 
         public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist)

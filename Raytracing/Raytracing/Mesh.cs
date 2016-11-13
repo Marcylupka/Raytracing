@@ -169,11 +169,29 @@ namespace Kuc_Ray
                         v1 = (float)rnd.NextDouble();
                         v2 = (float)rnd.NextDouble();
                         v3 = (float)rnd.NextDouble();
-                        //v1 = 0.5f;
-                        //v2 = 1f;
-                        //v3 = 0f;
                         col = new LightIntensity(v1, v2, v3);
-                        mater.Color = new LightIntensity (0.1f, 0.6f, 0.2f);
+                        mater.Alpha = 100;
+                        mater.KDiffuse = new LightIntensity(1f, 1f, 1f);
+                        mater.KSpecular = new LightIntensity(1f, 1f, 1f);
+                        mater.SpecularExponent = 30f;
+                        if (iln % 4 == 0)
+                        {
+                            //LightCoral
+                            mater.Color = new LightIntensity(0.94f, 0.5f, 0.5f);
+                        } else if (iln%4 == 1)
+                        {
+                            //LightGreen
+                            mater.Color = new LightIntensity(0.56f, 0.93f, 0.56f);
+                        } else if (iln%4 == 2)
+                        {
+                            //Gray
+                            mater.Color = new LightIntensity(0.5f, 0.5f, 0.5f);
+                        } else
+                        {
+                            //LightBlue
+                            mater.Color = new LightIntensity(0.68f, 0.85f, 0.9f);
+                        }
+                        mater.Color = new LightIntensity(0f, 0f, 1f);
                             tabMesh[iln].triangleList.Add(
                                 new Triangle
                                     (
@@ -184,58 +202,14 @@ namespace Kuc_Ray
                                     )
                             );
                     }
-                    /*int k = 0;
-                    for (int i = 2; i < tabTempFaces[iln].Count; i += 3)
-                    {
-
-                        //v1 = (float)rnd.NextDouble();
-                        //v2 = (float)rnd.NextDouble();
-                        //v3 = (float)rnd.NextDouble();
-                        //v1 = 0.5f;
-                        //v2 = 1f;
-                        //v3 = 0f;
-                        //col = new LightIntensity(v1, v2, v3);
-                        tabMesh[iln].triangleList[k].Normal =
-                            new Vector
-                            (
-                                Normals[(int)tabTempFaces[iln][i].Z - 1],
-                                Normals[(int)tabTempFaces[iln][i + 1].Z - 1],
-                                Normals[(int)tabTempFaces[iln][i + 2].Z - 1]
-                            );
-                        k++;
-                    }*/
                 }
 
                 }
 
-            /* Console.WriteLine("Vertices:");
-             foreach (Vector ver in Vertices)
-             {
-                 Console.WriteLine(ver);
-             }
-             Console.WriteLine("Normals:");
-             foreach (Vector ver in Normals)
-             {
-                 Console.WriteLine(ver);
-             }
-             Console.WriteLine("Facets:");
-             foreach (Vector ver in TempFaces)
-             {
-                 Console.WriteLine(ver);
-             }
-             Console.WriteLine("Meszu:");
-             foreach (Triangle ver in triangleList)
-             {
-                 Console.WriteLine(ver);
-             }*/
             for (int iln = 0; iln < il; iln++)
             {
-                //Console.WriteLine(il);
-                //Console.WriteLine(tabMesh[iln].triangleList.Count);
-                //Console.WriteLine("zapisuje meshe");
                 resultMesh.Add(tabMesh[iln]);
             }
-            //Console.WriteLine(resultMesh.Count);
                         return resultMesh;
             }
     
