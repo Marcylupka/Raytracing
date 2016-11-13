@@ -96,8 +96,8 @@ namespace Kuc_Ray
         {
             return "(" + vertexA.X.ToString() + "," + vertexA.Y.ToString() + "," + vertexA.Z.ToString() + "), " + "(" + vertexB.X.ToString() + "," + vertexB.Y.ToString() + "," + vertexB.Z.ToString() + "), " + "(" + vertexC.X.ToString() + "," + vertexC.Y.ToString() + "," + vertexC.Z.ToString() + "), ";
         }
-
-        /*public override bool Intersect(Ray ray,ref int am, ref Vector crossP, ref float dist)
+        /*
+        public override bool Intersect(Ray ray,ref int am, ref Vector crossP, ref float dist)
         {
             Plain plainTr = new Plain(this.vertexA, this.normal);
             float dis = 0.0f;

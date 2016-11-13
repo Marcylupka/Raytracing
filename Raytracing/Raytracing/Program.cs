@@ -199,16 +199,18 @@ namespace Kuc_Ray
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            PointLight light1 = new PointLight(new Vector(-4, -4, -5), new LightIntensity(1f, 1f, 1f));
-            PointLight light2 = new PointLight(new Vector(4,4,5), new LightIntensity(1f, 1f, 1f));
+            PointLight light1 = new PointLight(new Vector(-4, 0, -4), new LightIntensity(1f, 1f, 1f));
+            PointLight light2 = new PointLight(new Vector(-4, 0, 4), new LightIntensity(1f, 1f, 1f));
             //PointLight light = new PointLight(new Vector(-4, -4, -4f), new LightIntensity(0f, 1f, 0f));
             //List<PointLight> lights = new List<PointLight>;
             //lights.Add(light);
             //Triangle swiatlo = new Triangle(new Vector(-4, -4, -4f), new Vector(-5, -7, -10), new Vector(-3, 0, -3), new LightIntensity(1, 1, 1));
             //Sphere swiatlo = new Sphere(new Vector(-4f, -4f, -4f), 7f, new LightIntensity(1f, 1f, 1f));
             //objectList.Add(swiatlo);
-            List<PointLight> lights = new List<PointLight>;
-            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "swiatlo.jpg", 4, lights);
+            List<PointLight> lights = new List<PointLight>();
+            lights.Add(light1);
+            lights.Add(light2);
+            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "swiatla.jpg", 4, lights);
 
         }
     }
