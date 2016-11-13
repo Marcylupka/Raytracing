@@ -8,26 +8,54 @@ namespace Kuc_Ray
 {
     public class Material
     {
-        private float[] kAmbient = new float[3];
-        public float[] KAmbient
+        private LightIntensity color;
+        public LightIntensity Color
+        {
+            get { return color; }
+            set { color = value; }
+        }
+
+        private LightIntensity kAmbient;
+        public LightIntensity KAmbient
         {
             get { return kAmbient; }
             set { kAmbient = value; }
         }
 
-        private float[] kDiffuse = new float[3];
-        public float[] KDiffuse
+        private LightIntensity kDiffuse;
+        public LightIntensity KDiffuse
         {
             get { return kDiffuse; }
             set { kDiffuse = value; }
         }
 
-        private float[] kSpecular = new float[3];
-        public float[] KSpecular
+        private LightIntensity kSpecular;
+        public LightIntensity KSpecular
         {
             get { return kSpecular; }
             set { kSpecular = value; }
         }
+
+        /* private float[] kAmbient = new float[3];
+         public float[] KAmbient
+         {
+             get { return kAmbient; }
+             set { kAmbient = value; }
+         }
+
+         private float[] kDiffuse = new float[3];
+         public float[] KDiffuse
+         {
+             get { return kDiffuse; }
+             set { kDiffuse = value; }
+         }
+
+         private float[] kSpecular = new float[3];
+         public float[] KSpecular
+         {
+             get { return kSpecular; }
+             set { kSpecular = value; }
+         }*/
 
         private float alpha;
         public float Alpha
@@ -52,12 +80,32 @@ namespace Kuc_Ray
 
         public Material()
         {
-            for (int i=0; i<3; i++)
+            this.color = new LightIntensity(0, 0, 0);
+            /*for (int i = 0; i < 3; i++)
             {
                 this.kAmbient[i] = 0.3f;
                 this.kDiffuse[i] = 0.5f;
                 this.kSpecular[i] = 0.8f;
-            }
+            }*/
+            this.kAmbient = new LightIntensity(0.3f, 0.3f, 0.3f);
+            this.kDiffuse = new LightIntensity(0.5f, 0.5f, 0.5f);
+            this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
+            this.alpha = 100;
+            this.hasTexture = false;
+        }
+
+        public Material(LightIntensity col)
+        {
+            this.color = col;
+            /*for (int i = 0; i < 3; i++)
+            {
+                this.kAmbient[i] = 0.3f;
+                this.kDiffuse[i] = 0.5f;
+                this.kSpecular[i] = 0.8f;
+            }*/
+            this.kAmbient = new LightIntensity(0.3f, 0.3f, 0.3f);
+            this.kDiffuse = new LightIntensity(0.5f, 0.5f, 0.5f);
+            this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
             this.alpha = 100;
             this.hasTexture = false;
         }

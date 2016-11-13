@@ -8,6 +8,13 @@ namespace Kuc_Ray
 {
     public class Triangle : Object1
     {
+        public String name;
+        public String Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         private Vector normal;
         public Vector Normal
         {
@@ -44,6 +51,8 @@ namespace Kuc_Ray
             this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
             this.normal.normalize();
             this.color = new LightIntensity(1, 1, 1);
+            this.mat = new Material();
+            this.name = "tr";
         }
 
         public Triangle (Vector vA, Vector vB, Vector vC)
@@ -54,6 +63,8 @@ namespace Kuc_Ray
             this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
             this.normal.normalize();
             this.color = new LightIntensity(1, 1, 1);
+            this.mat = new Material();
+            this.name = "tr";
         }
 
         public Triangle(Vector vA, Vector vB, Vector vC, LightIntensity col)
@@ -64,6 +75,20 @@ namespace Kuc_Ray
             this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
             this.normal.normalize();
             this.color = col;
+            this.mat = new Material();
+            this.name = "tr";
+        }
+
+        public Triangle(Vector vA, Vector vB, Vector vC, Material mater)
+        {
+            this.vertexA = vA;
+            this.vertexB = vB;
+            this.vertexC = vC;
+            this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
+            this.normal.normalize();
+            this.color = new LightIntensity(0, 0, 0);
+            this.mat = mater;
+            this.name = "tr";
         }
 
 

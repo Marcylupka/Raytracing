@@ -8,13 +8,6 @@ namespace Kuc_Ray
 {
     public class Plain : Object1
     {
-        private String type;
-        public String Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
         /*public String Object1.MyType()
         {
             return this.type;
@@ -38,7 +31,7 @@ namespace Kuc_Ray
         {
             this.point = p;
             this.normal = norm;
-            this.type = "plain";
+            this.mat = new Material();
         }
 
         public Plain (Vector p, Vector norm, LightIntensity col)
@@ -46,12 +39,12 @@ namespace Kuc_Ray
             this.point = p;
             this.normal = norm;
             this.color = col;
-            this.type = "plain";
+            this.mat = new Material();
         }
 
         public Plain()
         {
-            this.type = "plain";
+            this.mat = new Material();
         }
 
         public override bool Intersect(Ray ray, ref int am, ref Vector ppp, ref float distance)

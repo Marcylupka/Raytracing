@@ -136,7 +136,7 @@ namespace Kuc_Ray
                             for (int i = 1; i < 4; i++)
                                 {
                                     sf = st[i].Split('/');
-                                if (sf[1] != "" && i<4)
+                                if (sf[1] != "")
                                 {
                                     //3 dane - wierzchołek/tekstura/normalna
                                     Vector vect = new Vector();
@@ -162,6 +162,7 @@ namespace Kuc_Ray
                     Random rnd = new Random();
                     float v1, v2, v3;
                     LightIntensity col = new LightIntensity();
+                    Material mater = new Material();
                     for (int iln = 0; iln < il; iln++) {
                         for (int i = 0; i < tabTempFaces[iln].Count; i += 3)
                         {
@@ -171,18 +172,39 @@ namespace Kuc_Ray
                         //v1 = 0.5f;
                         //v2 = 1f;
                         //v3 = 0f;
-                            col = new LightIntensity(v1, v2, v3);
+                        col = new LightIntensity(v1, v2, v3);
+                        mater.Color = new LightIntensity (0.1f, 0.6f, 0.2f);
                             tabMesh[iln].triangleList.Add(
                                 new Triangle
                                     (
                                     Vertices[(int)tabTempFaces[iln][i].X - 1],
                                     Vertices[(int)tabTempFaces[iln][i + 1].X - 1],
                                     Vertices[(int)tabTempFaces[iln][i + 2].X - 1],
-                                    col
+                                    mater
                                     )
                             );
                     }
-                    }
+                    /*int k = 0;
+                    for (int i = 2; i < tabTempFaces[iln].Count; i += 3)
+                    {
+
+                        //v1 = (float)rnd.NextDouble();
+                        //v2 = (float)rnd.NextDouble();
+                        //v3 = (float)rnd.NextDouble();
+                        //v1 = 0.5f;
+                        //v2 = 1f;
+                        //v3 = 0f;
+                        //col = new LightIntensity(v1, v2, v3);
+                        tabMesh[iln].triangleList[k].Normal =
+                            new Vector
+                            (
+                                Normals[(int)tabTempFaces[iln][i].Z - 1],
+                                Normals[(int)tabTempFaces[iln][i + 1].Z - 1],
+                                Normals[(int)tabTempFaces[iln][i + 2].Z - 1]
+                            );
+                        k++;
+                    }*/
+                }
 
                 }
 

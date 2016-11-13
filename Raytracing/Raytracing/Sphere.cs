@@ -8,13 +8,6 @@ namespace Kuc_Ray
 {
     public class Sphere : Object1
     {
-        private String type;
-        public String Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
-
         /*public String Object1.MyType()
         {
             return this.type;
@@ -39,7 +32,7 @@ namespace Kuc_Ray
             this.center = new Vector(1, 1, 1);
             this.radius = 1;
             this.color = new LightIntensity(1, 1, 1);
-            this.type = "sphere";
+            this.mat = new Material();
 
         }
 
@@ -48,7 +41,7 @@ namespace Kuc_Ray
             this.center = c;
             this.radius = r;
             this.color = col;
-            this.type = "sphere";
+            this.mat = new Material();
         }
 
         public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist)

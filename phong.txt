@@ -1,0 +1,38 @@
+for (int i = 0; i < img.Width; i++)
+{
+for (int j = 0; j < img.Height; j++)
+{
+srodekX = -1.8f + (i + 0.5f) * widthPixel;
+srodekY = 1.0f - (j + 0.5f) * heightPixel;
+Ray ray = new Ray(new Point(0, 0, 1), new Point(srodekX, srodekY, 0));
+Point intersetion = s.intersect(ray);
+if (intersetion != null)
+{
+//Vector n = new Vector(s.getCenter(), intersetion);
+//Vector l = new Vector(intersetion, source.getPosition());
+double r, g, b, cosinus;
+I = ray.direction().normalizujVector();
+N = s.normal(intersetion);
+R = I - (N * N.iloczynSkalarny(I) * 2.0f);
+ss = ray.direction().normalizujVector().iloczynSkalarny(R);
+if (-ss > 0)
+{
+specular = Math.Pow(ss, a);
+}
+else
+{
+specular = 0;
+}
+specular *= specularCoef;
+sIntensity = source.Intensity * specular;
+// diffuse
+cosinus = ray.direction().normalizujVector().iloczynSkalarny(s.normal(intersetion));
+r = -source.Intensity.getRed() * k * cosinus;
+g = -source.Intensity.getGreen() * k * cosinus;
+b = -source.Intensity.getBlue() * k * cosinus;
+Intensity diffuseIntensity = new Intensity(255, g, b) + aIntensity;
+img.setPixel(i, j, sIntensity + diffuseIntensity);
+}
+else img.setPixel(i, j, aIntensity);
+}
+}

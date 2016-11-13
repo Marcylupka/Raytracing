@@ -199,7 +199,10 @@ namespace Kuc_Ray
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            perspCamera2.reg_object_render_scene(1000, 1000, objectList, meszuList, "s3_bary2.jpg", 4);
+            PointLight light = new PointLight(new Vector(1, 0, -0.5f), new LightIntensity(1, 1, 1));
+            //List<PointLight> lights = new List<PointLight>;
+            //lights.Add(light);
+            perspCamera2.aa_object_render_scene(1000, 1000, objectList, meszuList, "s3_swiatlo1.jpg", 4, light);
         }
     }
 }

@@ -15,6 +15,28 @@ namespace Kuc_Ray
             get { return color; }
             set { color = value; }
         }
+
+        public Material mat;
+        public Material Mat
+        {
+            get { return mat; }
+            set { mat = value; }
+        }
+
+        public Vector normal;
+        public Vector Normal
+        {
+            get { return normal; }
+            set { normal = value; }
+        }
+
+        public String name;
+        public String Name
+        {
+            get { return name; }
+            set { name = value; }
+        }
+
         //bool Intersect();
         //bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref Vector notMin);
         //bool Intersect(Ray ray, ref float distance, ref Vector ppp);

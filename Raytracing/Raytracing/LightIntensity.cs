@@ -97,29 +97,35 @@ namespace Kuc_Ray
                 throw new Exception("Can't divide by 0");
         }
 
-        public static Vector operator *(float scalar, LightIntensity right)
+        #region Operators
+
+        public static LightIntensity operator *(float scalar, LightIntensity right)
         {
-            return new Vector(right.r * scalar, right.g * scalar, right.b * scalar);
+            return new LightIntensity(right.r * scalar, right.g * scalar, right.b * scalar);
         }
-        public static Vector operator *(LightIntensity left, float scalar)
+        public static LightIntensity operator *(LightIntensity left, float scalar)
         {
-            return new Vector(left.r * scalar, left.g * scalar, left.b * scalar);
+            return new LightIntensity(left.r * scalar, left.g * scalar, left.b * scalar);
         }
-        public static Vector operator *(LightIntensity left, LightIntensity right)
+        public static LightIntensity operator *(LightIntensity left, LightIntensity right)
         {
-            return new Vector(left.r * right.r, left.g * right.g, left.b * right.b);
+            return new LightIntensity(left.r * right.r, left.g * right.g, left.b * right.b);
         }
-        public static Vector operator +(LightIntensity left, LightIntensity right)
+        /*public static LightIntensity operator *(Vector vec, LightIntensity right)
         {
-            return new Vector(left.r + right.r, left.g + right.g, left.b + right.b);
+            return new LightIntensity(right.r * vec.X, right.g * vec.Y, right.b * vec.Z);
+        }*/
+        public static LightIntensity operator +(LightIntensity left, LightIntensity right)
+        {
+            return new LightIntensity(left.r + right.r, left.g + right.g, left.b + right.b);
         }
-        public static Vector operator -(LightIntensity left, LightIntensity right)
+        public static LightIntensity operator -(LightIntensity left, LightIntensity right)
         {
-            return new Vector(left.r - right.r, left.g - right.g, left.b - right.b);
+            return new LightIntensity(left.r - right.r, left.g - right.g, left.b - right.b);
         }
-        public static Vector operator -(LightIntensity left)
+        public static LightIntensity operator -(LightIntensity left)
         {
-            return new Vector(-left.r, -left.g, -left.b);
+            return new LightIntensity(-left.r, -left.g, -left.b);
         }
         public static bool operator ==(LightIntensity left, LightIntensity right)
         {
@@ -129,6 +135,8 @@ namespace Kuc_Ray
         {
             return (left.r != right.r || left.g != right.g || left.b != right.b);
         }
+
+        #endregion Operators
     }
 }
 
