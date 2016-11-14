@@ -34,18 +34,35 @@ namespace Kuc_Ray
             if (r >= 0 && r <= 1)
             {
                 this.r = r;
-            } else throw new Exception("r value out of range");
+            }
+            else
+            {
+                if (r < 0) r = 0;
+                if (r > 1) r = 1;
+            }
+            //throw new Exception("r value out of range");
             if (g >= 0 && g <= 1)
             {
                 this.g = g;
             }
-            else throw new Exception("g value out of range");
+            else
+            {
+                if (g < 0) g = 0;
+                if (g > 1) g = 1;
+            }
+            //throw new Exception("g value out of range");
             if (b >= 0 && b <= 1)
             {
                 this.b = b;
             }
-            else throw new Exception("b value out of range");
+            else
+            {
+                if (b < 0) b = 0;
+                if (b > 1) b = 1;
+            }
+            //throw new Exception("b value out of range");
         }
+
 
         public LightIntensity ()
         {
@@ -117,7 +134,16 @@ namespace Kuc_Ray
         }*/
         public static LightIntensity operator +(LightIntensity left, LightIntensity right)
         {
-            return new LightIntensity(left.r + right.r, left.g + right.g, left.b + right.b);
+            float g = left.g + right.g;
+            if (g < 0) g = 0;
+            if (g > 1) g = 1;
+            float b = left.b + right.b;
+            if (b < 0) b = 0;
+            if (b > 1) b = 1;
+            float r = left.r + right.r;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            return new LightIntensity(r, g, b);
         }
         public static LightIntensity operator -(LightIntensity left, LightIntensity right)
         {

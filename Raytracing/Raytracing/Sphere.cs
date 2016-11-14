@@ -52,6 +52,15 @@ namespace Kuc_Ray
             this.name = "sph";
         }
 
+        public Sphere(Vector c, float r, Material material)
+        {
+            this.center = c;
+            this.radius = r;
+            //this.color = col;
+            this.mat = material;
+            this.name = "sph";
+        }
+
         public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist)
         {
             Vector notMin = new Vector();

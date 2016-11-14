@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace Kuc_Ray
 {
-    class PCamera
+    public class PCamera
     {
         private Vector u, v, w;
 
@@ -125,39 +125,83 @@ namespace Kuc_Ray
                 }
                 if (objectHit != null)
                 {
+                    //Console.WriteLine("PRZECIALEM!!!");
+                    Vector reflected = new Vector();
+                    LightIntensity result = new LightIntensity(0, 0, 0);
+                    //Vector norm = new Vector();
+                    if (objectHit.name == "tr")
+                    {
                         Triangle trHit = (Triangle)objectHit;
-                        Vector Vector1 = new Vector();
+                        /*Vector Vector1 = new Vector();
                         Vector1.X = trHit.VertexA.X - trHit.VertexB.X;
                         Vector1.Y = trHit.VertexA.Y - trHit.VertexB.Y;
                         Vector1.Z = trHit.VertexA.Z - trHit.VertexB.Z;
                         Vector Vector2 = new Vector();
                         Vector2.X = trHit.VertexB.X - trHit.VertexC.X;
                         Vector2.Y = trHit.VertexB.Y - trHit.VertexC.Y;
-                        Vector2.Z = trHit.VertexB.Z - trHit.VertexC.Z;
-                        trHit.Normal.X = Vector1.Y * Vector2.Z - Vector1.Z * Vector2.Y;
-                        trHit.Normal.Y = Vector1.Z * Vector2.X - Vector1.X * Vector2.Z;
-                        trHit.Normal.Z = Vector1.X * Vector2.Y - Vector1.Y * Vector2.X;
+                        Vector2.Z = trHit.VertexB.Z - trHit.VertexC.Z;*/
+
+                        trHit.Normal = (trHit.VertexB - trHit.VertexA).cross(trHit.VertexC - trHit.VertexA);
+
+                        //trHit.Normal.X = (Vector1.Y * Vector2.Z - Vector1.Z * Vector2.Y);
+                        //trHit.Normal.Y = (Vector1.Z * Vector2.X - Vector1.X * Vector2.Z);
+                        //trHit.Normal.Z = (Vector1.X * Vector2.Y - Vector1.Y * Vector2.X);
+
                         trHit.Normal.normalize();
-                    LightIntensity result = new LightIntensity(0, 0, 0);
-                    Vector reflected = new Vector();
-                    foreach (PointLight pl in plList)
+
+                        foreach (PointLight pl in plList)
+                        {
+                            Vector inDirection = (pl.Location - pp1);
+                            inDirection.normalize();
+                            //Console.WriteLine("1: " + inDirection.ToString());
+                            Vector newInDir = new Vector(inDirection);//*/ inDirection;
+                                                                      //Console.WriteLine("2: " + newInDir.ToString());
+                            newInDir.normalize();
+                            float diffuseFactor = inDirection.dot(trHit.Normal);
+                            if (diffuseFactor < 0) { return new LightIntensity(0, 0, 0); }
+
+                            result += (pl.Color * objectHit.mat.Color * diffuseFactor * objectHit.mat.KDiffuse);
+                            reflected = newInDir.reflect(trHit.Normal);
+                        }
+                    } else if (objectHit.name == "sph")
                     {
-                        Vector inDirection = (pl.Location - pp1);
-                        inDirection.normalize();
-                        float diffuseFactor = inDirection.dot(trHit.Normal);
-                        if (diffuseFactor < 0) { return new LightIntensity(0, 0, 0); }
-                        result += (pl.Color * objectHit.mat.Color * diffuseFactor * objectHit.mat.KDiffuse) * (1f / 2f);
-                        reflected = inDirection.reflect(trHit.Normal);
+                        //Console.WriteLine("Jestem sfera");
+                        Sphere trHit = (Sphere)objectHit;
+                        //Console.WriteLine("Srodek " + trHit.Center);
+                        //Console.WriteLine("Promien " + trHit.Radius);
+                        trHit.Normal = pp1 - trHit.Center;
+                        trHit.Normal.normalize();
+                        //Console.WriteLine("Normalna " + norm);
+                        foreach (PointLight pl in plList)
+                        {
+                            Vector inDirection = (pl.Location - pp1);
+                            inDirection.normalize();
+                            //Console.WriteLine("1: " + inDirection.ToString());
+                            Vector newInDir = new Vector(inDirection);//*/ inDirection;
+                                                                      //Console.WriteLine("2: " + newInDir.ToString());
+                            newInDir.normalize();
+                            float diffuseFactor = inDirection.dot(trHit.Normal);
+                            if (diffuseFactor < 0) { return new LightIntensity(0, 0, 0); }
+
+                            result += (pl.Color * objectHit.mat.Color * diffuseFactor * objectHit.mat.KDiffuse);
+                            reflected = newInDir.reflect(trHit.Normal);
+                        }
                     }
+                    //Console.WriteLine("Result: " + result);
                     //result *= (1f/(float)plList.Count);
                     float phongFactor = 0;
                     ray.Direction.normalize();
-                    float cosAngle = reflected.dot(-ray.Direction);
-                    if (cosAngle <= 0) phongFactor = 0;
+                    Vector tmpVect = new Vector(this.position);
+                    tmpVect.sub(pp1);
+                    tmpVect.normalize();
+                    float cosAngle = reflected.dot(tmpVect);//(-ray.Direction);
+                    if (cosAngle < 0) phongFactor = 0;
                     else phongFactor = (float)Math.Pow(cosAngle, objectHit.mat.SpecularExponent);
+                    //phongFactor = (float)Math.Pow(cosAngle, objectHit.mat.SpecularExponent);
                     if (phongFactor != 0) { 
-                     result += (objectHit.mat.Color * objectHit.mat.KSpecular * phongFactor)*(1f/2f);
-                     colors[i] += result; }
+                        result += (objectHit.mat.Color * objectHit.mat.KSpecular * phongFactor);
+                        colors[i] += result;
+                    }
                     else colors[i] = new LightIntensity(0, 0, 0);
                 }
                 else colors[i] = new LightIntensity(0, 0, 0);
@@ -236,7 +280,7 @@ namespace Kuc_Ray
             float radFov = this.fov * (float)Math.PI / 180f;
             float tanFov2 = (float)Math.Tan(radFov / 2f);
 
-            LightIntensity backColor = new LightIntensity(0, 0, 0);
+            LightIntensity backColor = new LightIntensity(1f, 1f, 1f);
 
             for (int i = 0; i < width; i++)
             {
@@ -249,19 +293,24 @@ namespace Kuc_Ray
 
 
             float aspectRatio = (float)width / (float)height * 1.0f;
-            foreach (Mesh meszu in meszuList)
+            if (meszuList != null)
             {
-                foreach (Triangle t in meszu.TriangleList)
+                foreach (Mesh meszu in meszuList)
                 {
-                    objectList.Add(t);
+                    foreach (Triangle t in meszu.TriangleList)
+                    {
+                        objectList.Add(t);
+                    }
                 }
             }
 
 
             for (int i = 0; i < width; i++)
             {
+                if (i % 50 == 0) Console.WriteLine("Wykonano " + 100.0f*i/width +  "%");
                 for (int j = 0; j < height; j++)
                 {
+                    
                     if (objectList != null)
                     {
                         float ijx = ((2f * (i + 0.5f) / (float)width) - 1f) * tanFov2;

@@ -220,7 +220,7 @@ namespace Kuc_Ray
 
         public Vector reflect(Vector normal)
         {
-            return this - (2 * this.dot(normal) * normal); // padający - 2*(padający dot normalny)*normalny
+            return (2 * this.dot(normal) * normal - this); // padający - 2*(padający dot normalny)*normalny
         }
         //??
 
