@@ -152,7 +152,7 @@ namespace Kuc_Ray
             Vector pos = new Vector(0, 0, -5);
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
-            PCamera perspCamera = new PCamera(pos, targ, fov);
+            //PCamera perspCamera = new PCamera(pos, targ, fov);
             OCamera orthoCamera = new OCamera();
             //perspCamera.reg_object_render_scene(1000, 1000, object1List, "object1new.jpg", 4);
             //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
@@ -187,7 +187,7 @@ namespace Kuc_Ray
             List<Object1> objectList = new List<Object1>();
             //objectList.Clear();
             //objectList.Add(tr1);
-            Vector pos2 = new Vector(8, -2, -10);
+            Vector pos2 = new Vector(0, 0, 60);
             Vector targ2 = new Vector(0f, 0f, 0f);
             float fov2 = 60f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
@@ -195,12 +195,13 @@ namespace Kuc_Ray
             List<Mesh> meszuList = new List<Mesh>();
             Mesh meszu = new Mesh();
             //meszuList.Clear();
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Sphere0.obj");
+            meszuList = meszu.parseOBJ("C:\\Users\\Michał\\Documents\\Raytracing\\Raytracing\\teapot_bez_plane.obj");
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            PointLight light1 = new PointLight(new Vector(-4, 0, -4), new LightIntensity(1f, 1f, 1f));
-            PointLight light2 = new PointLight(new Vector(-4, 0, 4), new LightIntensity(1f, 1f, 1f));
+            PointLight light1 = new PointLight(new Vector(0, 0, 60), new LightIntensity(1f, 1f, 1f));
+            PointLight light2 = new PointLight(new Vector(0, -10, -10), new LightIntensity(1f, 1f, 1f));
+            //PointLight light2 = new PointLight(new Vector(50, 50, -50), new LightIntensity(1f, 1f, 1f));
             //PointLight light = new PointLight(new Vector(-4, -4, -4f), new LightIntensity(0f, 1f, 0f));
             //List<PointLight> lights = new List<PointLight>;
             //lights.Add(light);
@@ -209,8 +210,8 @@ namespace Kuc_Ray
             //objectList.Add(swiatlo);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
-            lights.Add(light2);
-            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "swiatla.jpg", 4, lights);
+            //lights.Add(light2);
+            perspCamera2.aa_object_render_scene(150, 150, objectList, meszuList, "swiatla.jpg", 4, lights);
 
         }
     }

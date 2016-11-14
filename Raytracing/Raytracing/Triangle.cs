@@ -152,7 +152,7 @@ namespace Kuc_Ray
             Vector p = ray.Direction.cross(e2);
             float det = e1.dot(p); // wyznacznik macierzy
 
-            if (det > -0.00005 && det > 0.00005)
+            if (det > -0.00005 && det < 0.00005)
                 return false;
 
             float iDet = 1f / det;
