@@ -13,7 +13,7 @@ namespace Kuc_Ray
             return this.type;
         }*/
 
-        public String name;
+        private String name = "sph";
         public String Name
         {
             get { return name; }

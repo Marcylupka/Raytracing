@@ -198,9 +198,11 @@ namespace Kuc_Ray
                                     Vertices[(int)tabTempFaces[iln][i].X - 1],
                                     Vertices[(int)tabTempFaces[iln][i + 1].X - 1],
                                     Vertices[(int)tabTempFaces[iln][i + 2].X - 1],
-                                    mater
+                                    mater,
+                                    "tr"
                                     )
                             );
+                        //Console.WriteLine(tabMesh[iln].triangleList.ElementAt(iln).name);
                     }
                 }
 

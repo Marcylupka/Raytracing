@@ -189,18 +189,19 @@ namespace Kuc_Ray
             //objectList.Add(tr1);
             Vector pos2 = new Vector(0, 60, 60);
             Vector targ2 = new Vector(0f, 0f, 0f);
-            float fov2 = 60f;
+            float fov2 = 90f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
             List<Mesh> meszuList = new List<Mesh>();
             meszuList = null;
             Mesh meszu = new Mesh();
             //meszuList.Clear();
-            //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_bez_plane.obj");
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_bez_plane.obj");
             //Console.WriteLine(meszuList.Count);
             //Console.WriteLine(objectList.Count);
             //meszuList.Add(meszu);
-            PointLight light1 = new PointLight(new Vector(0, 60, 60), new LightIntensity(1f, 1f, 1f));
+            //PointLight light1 = new PointLight(new Vector(10, 10, 10), new LightIntensity(1f, 1f, 1f));
+            PointLight light1 = new PointLight(new Vector(7.5f, 10, -25), new LightIntensity(1f, 1f, 1f));
             //PointLight light1 = new PointLight(new Vector(20, 30, 20), new LightIntensity(1f, 1f, 1f));
             PointLight light2 = new PointLight(new Vector(-20, 30, 20), new LightIntensity(1f, 1f, 1f));
             //PointLight light2 = new PointLight(new Vector(50, 50, -50), new LightIntensity(1f, 1f, 1f));
@@ -211,17 +212,25 @@ namespace Kuc_Ray
             Material mate = new Material();
             mate.Alpha = 100;
             mate.KDiffuse = new LightIntensity(1f, 1f, 1f);
-            mate.KSpecular = new LightIntensity(0f, 0f, 0f);
-            mate.SpecularExponent = 50f;
-            mate.Color = new LightIntensity(0.56f, 0.93f, 0.56f);
-            Object1 sfera = new Sphere(new Vector(0f,0f,0f), 20f, mate);
+            mate.KSpecular = new LightIntensity(1f, 1f, 1f);
+            mate.SpecularExponent = 1f;
+            mate.Color = new LightIntensity(1f, 0f, 0f);
+            Object1 sfera = new Sphere(new Vector(-15f,20f,-50f), 30f, mate);
             sfera.name = "sph";
+            /*
+            Vector tp1 = new Vector(0, 0, 0);
+            Vector tp2 = new Vector(20, 0, 0);
+            Vector tp3 = new Vector(10, 20, 0);
+            Triangle tr1 = new Triangle(tp1, tp3, tp2, mate);
+            tr1.name = "tr";
+            objectList.Add(tr1);
+            */
             objectList.Add(sfera);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
             //lights.Add(light2);
 
-            perspCamera2.aa_object_render_scene(500, 500, objectList, meszuList, "nowa_kula1.jpg", 25, lights);
+            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "nowe_3.jpg", 25, lights);
 
         }
     }

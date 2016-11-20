@@ -218,9 +218,11 @@ namespace Kuc_Ray
         }
         #endregion Operators
 
-        public Vector reflect(Vector normal)
+        public Vector reflect(Vector vect, Vector normal)
         {
-            return (2 * this.dot(normal) * normal - this); // padający - 2*(padający dot normalny)*normalny
+            //float dot = normal.dot(vect);
+            //return normal * dot * 2 - vect; // padający - 2*(padający dot normalny)*normalny
+            return 2*(vect.dot(normal)*normal) - vect;
         }
         //??
 

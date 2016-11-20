@@ -8,7 +8,7 @@ namespace Kuc_Ray
 {
     public class Triangle : Object1
     {
-        public String name;
+        public String name = "tr";
         public String Name
         {
             get { return name; }
@@ -91,6 +91,17 @@ namespace Kuc_Ray
             this.name = "tr";
         }
 
+        public Triangle(Vector vA, Vector vB, Vector vC, Material mater, String nam)
+        {
+            this.vertexA = vA;
+            this.vertexB = vB;
+            this.vertexC = vC;
+            this.normal = ((this.vertexB - this.vertexA).cross(this.vertexC - this.vertexA));
+            this.normal.normalize();
+            //this.color = new LightIntensity(0, 0, 0);
+            this.mat = mater;
+            this.name = nam;
+        }
 
         public override string ToString()
         {
@@ -152,7 +163,7 @@ namespace Kuc_Ray
             Vector p = ray.Direction.cross(e2);
             float det = e1.dot(p); // wyznacznik macierzy
 
-            if (det > -0.00005 && det > 0.00005)
+            if (det > -0.00005 && det < 0.00005)
                 return false;
 
             float iDet = 1f / det;
