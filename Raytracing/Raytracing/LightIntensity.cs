@@ -90,9 +90,12 @@ namespace Kuc_Ray
 
         public void add(LightIntensity v)
         {
-            this.r += v.R;
-            this.g += v.G;
-            this.b += v.B;
+            if (this.r + v.R > 1) this.r = 1;
+            else this.r += v.R;
+            if (this.g + v.G > 1) this.g = 1;
+            else this.g += v.G;
+            if (this.b + v.B > 1) this.b = 1;
+            else this.b += v.B;
         }
 
         public void sub(LightIntensity v)
@@ -118,15 +121,42 @@ namespace Kuc_Ray
 
         public static LightIntensity operator *(float scalar, LightIntensity right)
         {
-            return new LightIntensity(right.r * scalar, right.g * scalar, right.b * scalar);
+            float g = right.g * scalar;
+            if (g < 0) g = 0;
+            if (g > 1) g = 1;
+            float b = right.b * scalar;
+            if (b < 0) b = 0;
+            if (b > 1) b = 1;
+            float r = right.r * scalar;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            return new LightIntensity(r, g, b);
         }
         public static LightIntensity operator *(LightIntensity left, float scalar)
         {
-            return new LightIntensity(left.r * scalar, left.g * scalar, left.b * scalar);
+            float g = left.g * scalar;
+            if (g < 0) g = 0;
+            if (g > 1) g = 1;
+            float b = left.b * scalar;
+            if (b < 0) b = 0;
+            if (b > 1) b = 1;
+            float r = left.r * scalar;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            return new LightIntensity(r,g,b);
         }
         public static LightIntensity operator *(LightIntensity left, LightIntensity right)
         {
-            return new LightIntensity(left.r * right.r, left.g * right.g, left.b * right.b);
+            float g = left.g * right.g;
+            if (g < 0) g = 0;
+            if (g > 1) g = 1;
+            float b = left.b * right.b;
+            if (b < 0) b = 0;
+            if (b > 1) b = 1;
+            float r = left.r * right.r;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            return new LightIntensity(r,g,b);
         }
         /*public static LightIntensity operator *(Vector vec, LightIntensity right)
         {
@@ -147,7 +177,16 @@ namespace Kuc_Ray
         }
         public static LightIntensity operator -(LightIntensity left, LightIntensity right)
         {
-            return new LightIntensity(left.r - right.r, left.g - right.g, left.b - right.b);
+            float g = left.g - right.g;
+            if (g < 0) g = 0;
+            if (g > 1) g = 1;
+            float b = left.b - right.b;
+            if (b < 0) b = 0;
+            if (b > 1) b = 1;
+            float r = left.r - right.r;
+            if (r < 0) r = 0;
+            if (r > 1) r = 1;
+            return new LightIntensity(r, g, b);
         }
         public static LightIntensity operator -(LightIntensity left)
         {

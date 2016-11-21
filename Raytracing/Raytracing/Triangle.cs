@@ -55,7 +55,7 @@ namespace Kuc_Ray
             this.name = "tr";
         }
 
-        public Triangle (Vector vA, Vector vB, Vector vC)
+        public Triangle(Vector vA, Vector vB, Vector vC)
         {
             this.vertexA = vA;
             this.vertexB = vB;
@@ -155,7 +155,7 @@ namespace Kuc_Ray
 
         }*/
         //barycentryczne
-        public override bool Intersect(Ray ray, ref int am, ref Vector crossP, ref float dist)
+        public override bool Intersect(Ray ray, ref int am, ref Vector crossP, ref float dist, ref Vector normal)
         {
             Vector e1 = this.vertexB - this.vertexA;
             Vector e2 = this.vertexC - this.vertexA;
@@ -163,8 +163,12 @@ namespace Kuc_Ray
             Vector p = ray.Direction.cross(e2);
             float det = e1.dot(p); // wyznacznik macierzy
 
-            if (det > -0.00005 && det < 0.00005)
-                return false;
+            if (-0.00005f < det)
+            {
+                if (det < 0.00005f){
+                    return false;
+                }
+            }
 
             float iDet = 1f / det;
 
@@ -184,6 +188,17 @@ namespace Kuc_Ray
                 crossP = ray.Origin + ray.Direction * m_w;
                 am = 1;
                 dist = m_w;
+
+                Vector U = (vertexB - vertexA);
+                Vector V = (vertexC - vertexA);
+                normal.X = (U.Y * V.Z) - (U.Z * V.Y);
+                normal.Y = (U.Z * V.X) - (U.X * V.Z);
+                normal.Z = (U.X * V.Y) - (U.Y * V.X);
+
+                //normal = this.normal;
+                //  e2.cross(e1);
+                normal.normalize();
+
                 return true;
             }
 

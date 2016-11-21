@@ -23,88 +23,6 @@ namespace Kuc_Ray
             Vector pp1 = new Vector(0, 0, 0);
             Vector pp2 = new Vector(0, 0, 0);
 
-            //INSTRUKCJA 1
-            /*
-            Vector S0 = new Vector(0, 0, 0);
-            Vector R0 = new Vector(0, 0, -20);
-            Vector R1D = S0-R0;
-            Vector R2D = new Vector(0, 10, 0);
-            Sphere S = new Sphere(S0, 10);
-            Ray R1 = new Ray(R0, R1D); // 2 punkty przecięcia
-            Ray R2 = new Ray(R0, R2D); // brak przecięcia
-
-            Console.WriteLine();
-            Console.WriteLine("promien R1");
-            S.Intersect(R1, ref am, ref pp1, ref pp2);
-            Console.Write("Ilosc punktow przeciecia: ");
-            Console.WriteLine(am);
-            if (am>1)
-            {
-                Console.Write("Pierwszy punkt przeciecia: ");
-                Console.WriteLine(pp1);
-            }
-
-            Console.WriteLine();
-            Console.WriteLine("promien R2");
-            S.Intersect(R2, ref am, ref pp1, ref pp2);
-            Console.Write("Ilosc punktow przeciecia: ");
-            Console.WriteLine(am);
-            if (am>1)
-            {
-                Console.Write("Pierwszy punkt przeciecia: ");
-                Console.WriteLine(pp1);
-            }
-
-            Vector R03 = new Vector(0, 0, 5);
-            Vector R3D = new Vector(0, 0, 2);
-            Ray R3 = new Raytracing.Ray(R03, R3D);
-            Console.WriteLine();
-            Console.WriteLine("promien R3");
-            S.Intersect(R3, ref am, ref pp1, ref pp2);
-            Console.Write("Ilosc punktow przeciecia: ");
-            Console.WriteLine(am);
-            if (am>1)
-            {
-                Console.Write("Pierwszy punkt przeciecia: ");
-                Console.WriteLine(pp1);
-            }
-
-            Console.WriteLine();
-
-            Vector normalna = new Vector(0, 1, 1);
-            Plain P1 = new Plain(S0, normalna);
-            Vector ppp = new Vector(0, 0, 0);
-            float odleglosc = 0;
-            Console.WriteLine("plaszczyzna P1");
-            if (P1.Intersect(R2, ref odleglosc, ref ppp))
-            {
-                Console.Write("Punkt przeciecia P1 z R2: ");
-                Console.WriteLine(ppp);
-            }
-
-            Console.WriteLine();
-
-            Vector S1 = new Vector(0, 0, -20);
-            Vector S2 = new Vector(10, 0, 10);
-            Vector R4DD = new Vector(0, 0, -1);
-            Vector R4D = R4DD - S0;
-            Ray R4 = new Ray(S0, R4D);
-            //Sphere Sn1 = new Sphere(S1, 10);
-            Sphere Sn1 = new Sphere(S2, 10);
-            Console.WriteLine();
-            Console.WriteLine("promien R4");
-            Sn1.Intersect(R4, ref am, ref pp1, ref pp2);
-            Console.Write("Ilosc punktow przeciecia: ");
-            Console.WriteLine(am);
-            if (am > 1)
-            {
-                Console.Write("Pierwszy punkt przeciecia: ");
-                Console.WriteLine(pp1);
-            }
-
-            Console.WriteLine();
-            */
-
             //INSTRUKCJA 2
 
             //ORTHOCAMERA
@@ -152,42 +70,13 @@ namespace Kuc_Ray
             Vector pos = new Vector(0, 0, -5);
             Vector targ = new Vector(0, 0, 0);
             float fov = 60f;
-            //PCamera perspCamera = new PCamera(pos, targ, fov);
             OCamera orthoCamera = new OCamera();
-            //perspCamera.reg_object_render_scene(1000, 1000, object1List, "object1new.jpg", 4);
-            //perspCamera.reg_aa_render_scene(600, 400, sphereList, null, "pcameranew1.jpg",8);
-            //orthoCamera.reg_aa_render_scene(1000, 1000, sphereList, null, "ocameranew.jpg",4);
-            //perspCamera.render_scene(600, 400, sphereList, null, "pcamera1.jpg");
-            //perspCamera.render_scene(400, 600, sphereList, null, "pcamera2.jpg");
-            /* OCamera orthoCamera = new OCamera();
-             orthoCamera.render_scene(1000, 1000, sphereList, null, "ocamera.jpg");
-             orthoCamera.render_scene(600, 400, sphereList, null, "ocamera1.jpg");
-             orthoCamera.render_scene(400, 600, sphereList, null, "ocamera2.jpg");
-             */
 
-            /*Vector tp1 = new Vector(0, 0, 0);
-            Vector tp2 = new Vector(2, 0, 0);
-            Vector tp3 = new Vector(1, 2, 0);
-            //Triangle tr1 = new Triangle(tp1, tp3, tp2);
-            Triangle tr1 = new Triangle(tp1, tp2, tp3);
-            tr1.Color = kolorek1;
-            Vector trayo = new Vector(1, 1, -1);
-            Vector trayd1 = new Vector(1, 1, 1);
-            Vector trayd = trayd1 - trayo;
-            Ray tray = new Ray(trayo, trayd);
-            Vector tpp = new Vector (0,0,0);
-            int tam = 0;
-            float tdd = 0f;
-            if (tr1.Intersect(tray, ref tam, ref tpp, ref tdd))
-            {
-                Console.WriteLine("Punkt przeciecia promienia z trojkatem: ");
-                Console.WriteLine(tpp);
-                Console.WriteLine();
-            }*/
             List<Object1> objectList = new List<Object1>();
             //objectList.Clear();
             //objectList.Add(tr1);
-            Vector pos2 = new Vector(0, 60, 60);
+            //Vector pos2 = new Vector(0, 60, 60);
+            Vector pos2 = new Vector(40, 40, 40);
             Vector targ2 = new Vector(0f, 0f, 0f);
             float fov2 = 90f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
@@ -196,41 +85,39 @@ namespace Kuc_Ray
             meszuList = null;
             Mesh meszu = new Mesh();
             //meszuList.Clear();
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_bez_plane.obj");
-            //Console.WriteLine(meszuList.Count);
-            //Console.WriteLine(objectList.Count);
+            //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_bez_plane.obj");
+
+
+            //mat = new Material(new LightIntensity(1, 0, 0));
+            //mat.Alpha = 100;
+            //mat.KDiffuse = new LightIntensity(1f, 1f, 1f);
+            //mat.KSpecular = new LightIntensity(1f, 1f, 1f);
+            //mat.SpecularExponent = 30f;
+
+            //meszuList[0].Mat = new Material(new LightIntensity(1, 0, 0)); 
+
+            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_z.obj");
+
+            //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Sphere0.obj");
             //meszuList.Add(meszu);
-            //PointLight light1 = new PointLight(new Vector(10, 10, 10), new LightIntensity(1f, 1f, 1f));
-            PointLight light1 = new PointLight(new Vector(7.5f, 10, -25), new LightIntensity(1f, 1f, 1f));
-            //PointLight light1 = new PointLight(new Vector(20, 30, 20), new LightIntensity(1f, 1f, 1f));
-            PointLight light2 = new PointLight(new Vector(-20, 30, 20), new LightIntensity(1f, 1f, 1f));
-            //PointLight light2 = new PointLight(new Vector(50, 50, -50), new LightIntensity(1f, 1f, 1f));
-            //PointLight light = new PointLight(new Vector(-4, -4, -4f), new LightIntensity(0f, 1f, 0f));
-            //List<PointLight> lights = new List<PointLight>;
-            //lights.Add(light);
-            //Triangle swiatlo = new Triangle(new Vector(-4, -4, -4f), new Vector(-5, -7, -10), new Vector(-3, 0, -3), new LightIntensity(1, 1, 1));
+            //PointLight light1 = new PointLight(new Vector(50, 10, 0), new LightIntensity(1f, 1f, 1f));
+            //PointLight light1 = new PointLight(new Vector(20, 0, -10), new LightIntensity(1f, 1f, 1f));
+            PointLight light1 = new PointLight(new Vector(45, 80, 0), new LightIntensity(0f, 1f, 0f));
+            PointLight light2 = new PointLight(new Vector(0, 80, 45), new LightIntensity(0f, 0f, 1f));
             Material mate = new Material();
             mate.Alpha = 100;
             mate.KDiffuse = new LightIntensity(1f, 1f, 1f);
             mate.KSpecular = new LightIntensity(1f, 1f, 1f);
             mate.SpecularExponent = 1f;
             mate.Color = new LightIntensity(1f, 0f, 0f);
-            Object1 sfera = new Sphere(new Vector(-15f,20f,-50f), 30f, mate);
+            Object1 sfera = new Sphere(new Vector(0,0,0), 40f, mate);
             sfera.name = "sph";
-            /*
-            Vector tp1 = new Vector(0, 0, 0);
-            Vector tp2 = new Vector(20, 0, 0);
-            Vector tp3 = new Vector(10, 20, 0);
-            Triangle tr1 = new Triangle(tp1, tp3, tp2, mate);
-            tr1.name = "tr";
-            objectList.Add(tr1);
-            */
-            objectList.Add(sfera);
+            //objectList.Add(sfera);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
-            //lights.Add(light2);
+            lights.Add(light2);
 
-            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "nowe_3.jpg", 25, lights);
+            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "_teapot_z.jpg", 25, lights);
 
         }
     }

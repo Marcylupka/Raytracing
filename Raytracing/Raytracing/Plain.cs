@@ -47,7 +47,7 @@ namespace Kuc_Ray
             this.mat = new Material();
         }
 
-        public override bool Intersect(Ray ray, ref int am, ref Vector ppp, ref float distance)
+        public override bool Intersect(Ray ray, ref int am, ref Vector ppp, ref float distance, ref Vector normal)
         {
             ppp = new Vector(0, 0, 0);
 
@@ -55,7 +55,7 @@ namespace Kuc_Ray
             //r. płaszczyzny (promien - point) * normal = 0
             //(origin+dir*x-point)*normal = 0
             //x = (point - origin)*normal/(dir*normal)
-            float t = (point - ray.Origin).dot(normal) / ray.Direction.dot(normal);
+            float t = (point - ray.Origin).dot(this.normal) / ray.Direction.dot(this.normal);
             if ( t > Ray.Mini)
             {
                 distance = t;
@@ -67,6 +67,7 @@ namespace Kuc_Ray
                 return true;
             }
             am = 0;
+            normal = this.normal;
             return false;
         }
     }

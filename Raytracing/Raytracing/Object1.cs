@@ -8,7 +8,7 @@ namespace Kuc_Ray
 {
     public abstract class Object1
     {
-        public abstract bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist);
+        public abstract bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist, ref Vector normal);
         public LightIntensity color;
         public LightIntensity Color
         {

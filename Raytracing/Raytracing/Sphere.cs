@@ -61,7 +61,7 @@ namespace Kuc_Ray
             this.name = "sph";
         }
 
-        public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist)
+        public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist, ref Vector normal)
         {
             Vector notMin = new Vector();
             float t;
@@ -136,6 +136,8 @@ namespace Kuc_Ray
                     else return false;
                 }
             dist = (tempMin - ray.Origin).length;
+            normal = tempMin - center;
+            normal.normalize();
          return true;
 
         }
