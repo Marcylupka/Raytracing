@@ -76,7 +76,7 @@ namespace Kuc_Ray
             //objectList.Clear();
             //objectList.Add(tr1);
             //Vector pos2 = new Vector(0, 60, 60);
-            Vector pos2 = new Vector(40, 40, 40);
+            Vector pos2 = new Vector(30, 30, 30);
             Vector targ2 = new Vector(0f, 0f, 0f);
             float fov2 = 90f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
@@ -87,37 +87,33 @@ namespace Kuc_Ray
             //meszuList.Clear();
             //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_bez_plane.obj");
 
-
-            //mat = new Material(new LightIntensity(1, 0, 0));
-            //mat.Alpha = 100;
-            //mat.KDiffuse = new LightIntensity(1f, 1f, 1f);
-            //mat.KSpecular = new LightIntensity(1f, 1f, 1f);
-            //mat.SpecularExponent = 30f;
-
             //meszuList[0].Mat = new Material(new LightIntensity(1, 0, 0)); 
 
-            meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_z.obj");
+            //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\teapot_z.obj");
 
             //meszuList = meszu.parseOBJ("D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Sphere0.obj");
             //meszuList.Add(meszu);
             //PointLight light1 = new PointLight(new Vector(50, 10, 0), new LightIntensity(1f, 1f, 1f));
             //PointLight light1 = new PointLight(new Vector(20, 0, -10), new LightIntensity(1f, 1f, 1f));
-            PointLight light1 = new PointLight(new Vector(45, 80, 0), new LightIntensity(0f, 1f, 0f));
-            PointLight light2 = new PointLight(new Vector(0, 80, 45), new LightIntensity(0f, 0f, 1f));
+            PointLight light1 = new PointLight(new Vector(45, 80, 0), new LightIntensity(1f, 1f, 1f));
+            PointLight light2 = new PointLight(new Vector(0, 80, 45), new LightIntensity(1f, 1f, 1f));
             Material mate = new Material();
-            mate.Alpha = 100;
+            Material mate2 = new Material();
             mate.KDiffuse = new LightIntensity(1f, 1f, 1f);
-            mate.KSpecular = new LightIntensity(1f, 1f, 1f);
-            mate.SpecularExponent = 1f;
+            mate.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
             mate.Color = new LightIntensity(1f, 0f, 0f);
-            Object1 sfera = new Sphere(new Vector(0,0,0), 40f, mate);
-            sfera.name = "sph";
-            //objectList.Add(sfera);
+            Object1 sfera = new Sphere(new Vector(-10,-10,-10), 30f, mate);
+            objectList.Add(sfera);
+            mate2.KDiffuse = new LightIntensity(1f, 1f, 1f);
+            mate2.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
+            mate2.Color = new LightIntensity(0f, 0f, 1f);
+            Object1 sfera2 = new Sphere(new Vector(10, 20, 20), 5f, mate2);
+            objectList.Add(sfera2);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
             lights.Add(light2);
 
-            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "_teapot_z.jpg", 25, lights);
+            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "_szfere_dwie.jpg", 25, lights);
 
         }
     }

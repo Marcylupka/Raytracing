@@ -86,7 +86,7 @@ namespace Kuc_Ray
 
         public LightIntensity sampling(float xc, float yc, float pw, float ph, ref List<Object1> objectList, int lvl, ref float dist, List<PointLight> plList)
         {
-
+            
             Vector[] verts = new Vector[4];
             LightIntensity[] colors = new LightIntensity[4];
             verts[0] = new Vector((xc - (0.5f * pw)), (yc + (0.5f * ph)), 0);
@@ -124,36 +124,26 @@ namespace Kuc_Ray
                         {
                             objectHit = obj;
                             minDist = dist;
-
                         }
                     }
                 }
                 if (objectHit != null)
                 {
-
-                    LightIntensity ia = new LightIntensity(0.01f, 0.0f, 0.0f);
-                    LightIntensity id = new LightIntensity(1f, 1f, 1f);
+                    LightIntensity ia = new LightIntensity(objectHit.mat.Color * 0.01f);
+                    //LightIntensity ia = new LightIntensity(0.01f, 0.01f, 0.01f);
 
                     foreach (PointLight pl in plList)
                     {
-                        Vector inDirection = (pl.Location - pp1);
-                        inDirection.normalize();
-
-
                         Vector L = pl.Location - pp1;
                         L.normalize();
-                        Vector newL = new Vector(L);
                         float LdotN = L.dot(c_normal);
                         if (LdotN < 0) LdotN = 0f;
                         Vector H = L - ray.Direction;
                         H.normalize();
-                        float nh = (float)Math.Pow((c_normal.dot(H)), 2 * 4);
-                        result += ia +   pl.Color *LdotN * objectHit.mat.Color + pl.Color * nh * objectHit.mat.KSpecular;
+                        float nh = (float)Math.Pow((c_normal.dot(H)), 2 * 20);
+                        result += ia + pl.Color *LdotN * objectHit.mat.Color + pl.Color * nh * objectHit.mat.KSpecular;
 
-
-
-                        // newInDir = new Vector(inDirection);
-                        colors[i] = result; //new LightIntensity(0, 1, 0);
+                        colors[i] = result;
                     }
                 }
                 else colors[i] = new LightIntensity(0, 0, 0);

@@ -13,12 +13,19 @@ namespace Kuc_Ray
             return this.type;
         }*/
 
-        private String name = "sph";
+       /* private String name = "sph";
         public String Name
         {
             get { return name; }
             set { name = value; }
-        }
+        }*/
+
+        //public new Material mat;
+       /* public Material Mat
+        {
+            get { return mat; }
+            set { mat = value; }
+        }*/
 
         private Vector center;
         public Vector Center
@@ -67,8 +74,8 @@ namespace Kuc_Ray
             float t;
             Vector distance = ray.Origin - center;
             float tMin = 0;
-            tempMin = new Kuc_Ray.Vector(0, 0, 0);
-            notMin = new Kuc_Ray.Vector(0, 0, 0);
+            tempMin = new Vector(0, 0, 0);
+            notMin = new Vector(0, 0, 0);
             amount = 0;
             /*if(distance > ray.Distance)
             {
