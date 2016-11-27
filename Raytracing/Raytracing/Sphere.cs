@@ -8,24 +8,25 @@ namespace Kuc_Ray
 {
     public class Sphere : Object1
     {
+        //Type myType = Type.GetType("Sphere");
         /*public String Object1.MyType()
         {
             return this.type;
         }*/
 
-       /* private String name = "sph";
-        public String Name
-        {
-            get { return name; }
-            set { name = value; }
-        }*/
+        /* private String name = "sph";
+         public String Name
+         {
+             get { return name; }
+             set { name = value; }
+         }*/
 
         //public new Material mat;
-       /* public Material Mat
-        {
-            get { return mat; }
-            set { mat = value; }
-        }*/
+        /* public Material Mat
+         {
+             get { return mat; }
+             set { mat = value; }
+         }*/
 
         private Vector center;
         public Vector Center
@@ -40,6 +41,7 @@ namespace Kuc_Ray
             get { return radius; }
             set { radius = value; }
         }
+
 
         public Sphere()
         {

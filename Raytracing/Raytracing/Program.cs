@@ -76,8 +76,8 @@ namespace Kuc_Ray
             //objectList.Clear();
             //objectList.Add(tr1);
             //Vector pos2 = new Vector(0, 60, 60);
-            Vector pos2 = new Vector(30, 30, 30);
-            Vector targ2 = new Vector(0f, 0f, 0f);
+            Vector pos2 = new Vector(20, 20, 20);
+            Vector targ2 = new Vector(10f, 10f, 10f);
             float fov2 = 90f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
             //perspCamera2.reg_object_render_scene(1000, 1000, objectList, "objectnew.jpg", 4);
@@ -107,14 +107,21 @@ namespace Kuc_Ray
             mate2.KDiffuse = new LightIntensity(1f, 1f, 1f);
             mate2.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
             mate2.Color = new LightIntensity(0f, 0f, 1f);
-            Object1 sfera2 = new Sphere(new Vector(10, 20, 20), 5f, mate2);
-            objectList.Add(sfera2);
+            Object1 sfera2 = new Sphere(new Vector(10, 10, 10), 5f, mate2);
+            //objectList.Add(sfera2);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
             lights.Add(light2);
 
-            perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "_szfere_dwie.jpg", 25, lights);
+            //perspCamera2.aa_object_render_scene(200, 200, objectList, meszuList, "_szfere_dwie.jpg", 25, lights);
 
+            String path = "D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Raytracing\\world1.jpg";
+            Texture earth = new Texture(path);
+            Object1 ziemia = new Sphere(new Vector(10, 10, 10), 12f, mate2);
+            mate2.HasTexture = true;
+            mate2.Text = earth;
+            objectList.Add(ziemia);
+            perspCamera2.aa_object_render_scene(500, 500, objectList, meszuList, "_ziemia.jpg", 25, lights);
         }
     }
 }

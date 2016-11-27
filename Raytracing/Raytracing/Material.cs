@@ -50,12 +50,12 @@ namespace Kuc_Ray
             set { alpha = value; }
         }
 
-        /*private Texture text;
+        private Texture text;
         public Texture Text
         {
             get { return text; }
             set { text = value; }
-        }*/
+        }
 
         private bool hasTexture;
         public bool HasTexture
@@ -78,6 +78,7 @@ namespace Kuc_Ray
             this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
             this.alpha = 100;
             this.hasTexture = false;
+            this.text = new Texture();
             this.specularExponent = 30;
         }
 
@@ -95,6 +96,7 @@ namespace Kuc_Ray
             this.kSpecular = new LightIntensity(0.8f, 0.8f, 0.8f);
             this.alpha = 100;
             this.hasTexture = false;
+            this.text = new Texture();
             this.specularExponent = 30;
         }
     }

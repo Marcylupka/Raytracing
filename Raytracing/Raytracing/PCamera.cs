@@ -132,6 +132,8 @@ namespace Kuc_Ray
                     LightIntensity ia = new LightIntensity(objectHit.mat.Color * 0.01f);
                     //LightIntensity ia = new LightIntensity(0.01f, 0.01f, 0.01f);
 
+                    LightIntensity textCol = new LightIntensity(0, 0, 0);
+
                     foreach (PointLight pl in plList)
                     {
                         Vector L = pl.Location - pp1;
@@ -141,7 +143,18 @@ namespace Kuc_Ray
                         Vector H = L - ray.Direction;
                         H.normalize();
                         float nh = (float)Math.Pow((c_normal.dot(H)), 2 * 20);
-                        result += ia + pl.Color *LdotN * objectHit.mat.Color + pl.Color * nh * objectHit.mat.KSpecular;
+
+                        if (objectHit.mat.HasTexture == true)
+                        {
+                            if (objectHit.name == "sph") {
+                                Sphere newObjectHit = (Sphere)objectHit;
+                                textCol = objectHit.mat.Text.pixelColorSph(pp1, newObjectHit.Radius, newObjectHit.Center);
+                            }
+                        }
+                        //result = textCol;
+
+                        result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular;
+                        //result += ia + pl.Color *LdotN * objectHit.mat.Color + pl.Color * nh * objectHit.mat.KSpecular;
 
                         colors[i] = result;
                     }

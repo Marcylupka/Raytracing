@@ -8,7 +8,7 @@ namespace Kuc_Ray
 {
     public class Triangle : Object1
     {
-        public String name = "tr";
+        public String name = "Triangle";
         public String Name
         {
             get { return name; }
