@@ -43,7 +43,7 @@ namespace Kuc_Ray
         {
             this.width = 200;
             this.height = 200;
-            this.ColorMap = new LightIntensity[this.width,this.height];
+            this.ColorMap = new LightIntensity[this.width, this.height];
         }
 
         public Texture(int w, int h)
@@ -77,20 +77,20 @@ namespace Kuc_Ray
                     //this.pic.GetPixel(i,j).
                     Color pixelColor = this.pic.GetPixel(i, j);
 
-                    ColorMap[i, j] = new LightIntensity((float)pixelColor.R / 255f, (float)pixelColor.G / 255f, (float)pixelColor.B / 255f);
+                    this.ColorMap[i, j] = new LightIntensity((float)pixelColor.R / 255f, (float)pixelColor.G / 255f, (float)pixelColor.B / 255f);
 
-                   // this.ColorMap[i, j].R = (float)(pixelColor.R/255);
-                   // this.ColorMap[i, j].G = (float)(pixelColor.G/255);
-                   // this.ColorMap[i, j].B = (float)(pixelColor.B/255);
+                    // this.ColorMap[i, j].R = (float)(pixelColor.R/255);
+                    // this.ColorMap[i, j].G = (float)(pixelColor.G/255);
+                    // this.ColorMap[i, j].B = (float)(pixelColor.B/255);
                 }
             }
         }
 
-        public LightIntensity pixelColorSph (Vector vert, float radius, Vector center)
+        public LightIntensity pixelColorSph(Vector vert, float radius, Vector center)
         {
             //Console.WriteLine("wszedlem");
 
-            LightIntensity result = new LightIntensity(1,1,1);
+            LightIntensity result = new LightIntensity(0, 0, 0);
 
             //float u = 0.5f + Math.Atan(2*)
             Vector move = new Vector(0, 0, 0) - center;
@@ -107,39 +107,45 @@ namespace Kuc_Ray
             if (Math.Abs(v) < 0.00005f)
             {
                 u = 0d;
-                //Console.WriteLine("case 1");
             }
             else if (Math.Abs(v - 1.0f) < 0.00005f)
             {
                 u = 0d;
-                //Console.WriteLine("case 2");
             }
             else if (Math.Abs(lp.X - rMULsin) < 0.00005f)
             {
                 u = 0d;
-                //Console.WriteLine("case 3");
             }
             else if (Math.Abs(lp.X + rMULsin) < 0.00005f)
             {
                 u = 0.5d;
-                //Console.WriteLine("case 4");
-            } else
+            }
+            else
             {
-                try
+                //try
+                //{
+                double newCos = lp.X / (double)rMULsin;
+
+                if (newCos < -1d)
                 {
-                    //Math.Acos(lp.X / (double)rMULsin);
-                    u = (double)((double)Math.Acos(lp.X / (double)rMULsin)) / (double)(2 * Math.PI);
-                    u = u * this.pic.Width;
-                    v = v * this.pic.Height;
-
-                    int newu = (int)Math.Round(u);
-                    int newv = (int)Math.Round(v);
-
-                    //Console.WriteLine(newu + ", " + newv);
-                    //Console.WriteLine(ColorMap[newu, newv]);
-                    result = this.ColorMap[newu, newv];
+                    newCos = -1d;
                 }
-                catch (Exception)
+                else if (newCos > 1d)
+                {
+                    newCos = 1d;
+                }
+
+                u = (double)((double)Math.Acos(newCos)) / (double)(2 * Math.PI);
+                //u = (double)((double)Math.Acos(lp.X / (double)rMULsin)) / (double)(2 * Math.PI);
+                u = u * this.pic.Width;
+                v = v * this.pic.Height;
+
+                int newu = (int)Math.Round(u);
+                int newv = (int)Math.Round(v);
+
+                result = this.ColorMap[newu, newv];
+                //}
+                /*catch (Exception)
                 {
                     u = 0d;
                     u = u * this.pic.Width;
@@ -151,12 +157,11 @@ namespace Kuc_Ray
                     //Console.WriteLine(newu + ", " + newv);
                     //Console.WriteLine(ColorMap[newu, newv]);
                     result = this.ColorMap[newu, newv];
-                }
+                }*/
 
 
                 //Console.WriteLine(rMULsin + ", " + lp.X + ", " + Math.Acos(lp.X / (double)rMULsin));
                 //u = (double)((double)Math.Acos(lp.X / (double)rMULsin)) / (double)(2 * Math.PI);
-                //Console.WriteLine("case 5");
             }
             /*
             u = u * this.pic.Width;
@@ -169,33 +174,6 @@ namespace Kuc_Ray
             //Console.WriteLine(ColorMap[newu, newv]);
             result = this.ColorMap[newu, newv];
             */
-            /*
-             * // przekształcenie punktu z przestrzeni sfery na przestrzeń tekstury
-inline vec2 mapSurfaceToTexture(sphere::i s, vec3::i p) {
-  vec3 lp = p - s.center;
- 
-  float yDIVr = lp.y / s.radius;
-  float v = 
-    ( abs(yDIVr - 1.0f) < epsilon5 ) ? 0.0f : // v = 0 (górny biegun)
-    ( abs(yDIVr + 1.0f) < epsilon5 ) ? 1.0f : // v = 1 (dolny biegun)
-    acos(yDIVr) / Pi;                         // bez osobliwości
- 
-  float rMULsin = s.radius * sin(Pi*v);
-  float u = // 1,2 -> biegun // 3,4 -> |x/rMULsin|=1 -> acos nieokreślony
-    ( abs(v) < epsilon5 ) ? 0.0f :               // 1) (u,v) = (0.0, 0)
-    ( abs(v - 1.0f) < epsilon5 ) ? 0.0f :        // 2) (u,v) = (0.0, 1)
-    ( abs(lp.x - rMULsin) < epsilon5 ) ? 0.0f :  // 3) (u,v) = (0.0, v) 
-    ( abs(lp.x + rMULsin) < epsilon5 ) ? 0.5f :  // 4) (u,v) = (0.5, v)
-    acos(lp.x / rMULsin) / PiMul2;               // bez osobliwości
- 
-  return vec2(u, v);
-
-
-              return vec3(
-    s.center.x + s.radius * sin(Pi * p.v) * cos(PiMul2 * p.u),
-    s.center.y + s.radius * cos(Pi * p.v),
-    s.center.z + s.radius * sin(Pi * p.v) * sin(PiMul2 * p.u)
-  */
 
 
             /*Vector igrek = new Vector(0, 1, 0);
@@ -208,5 +186,54 @@ inline vec2 mapSurfaceToTexture(sphere::i s, vec3::i p) {
             return result;
         }
 
+        
+        public LightIntensity pixelColorPl(Vector vert, Vector normal)
+        {
+            LightIntensity result = new LightIntensity(0, 0, 0);
+
+            int u = (int)Math.Round((vert.X + 1) / 2);
+            int v = (int)Math.Round((vert.Z + 1) / 2);
+
+            int pixelX = (this.width - 1) * u;
+            int pixelY = this.height - (int)((this.height - 1) * v) - 1;
+
+            while (pixelX >= this.width)
+            {
+                pixelX -= this.width;
+            }
+            while (pixelY >= this.height)
+            {
+                pixelY -= this.height;
+            }
+            while (pixelX < 0)
+            {
+                pixelX += this.width;
+            }
+            while (pixelY < 0)
+            {
+                pixelY += this.height;
+            }
+
+            result = this.ColorMap[pixelX, pixelY];
+
+            return result;
+        }
+        /*
+        public LightIntensity pixelColorPl(Vector vert)
+        {
+            LightIntensity result = new LightIntensity(0, 0, 0);
+
+            float u, v;
+            u = ((vert.X + 1.0f) / 2.0f);
+            v = ((vert.Y + 1.0f) / 2.0f);
+
+            int column = (int)Math.Round((this.width - 1f) * u);
+            int row = (int)Math.Round((this.height - 1.0f) * v) - 1;
+
+            result = this.ColorMap[column, row];
+
+            return result;
+        }
+        */
     }
 }

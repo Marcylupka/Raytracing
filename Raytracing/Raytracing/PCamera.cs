@@ -129,7 +129,7 @@ namespace Kuc_Ray
                 }
                 if (objectHit != null)
                 {
-                    LightIntensity ia = new LightIntensity(objectHit.mat.Color * 0.01f);
+                    LightIntensity ia = new LightIntensity(objectHit.mat.Color * 0.001f);
                     //LightIntensity ia = new LightIntensity(0.01f, 0.01f, 0.01f);
 
                     LightIntensity textCol = new LightIntensity(0, 0, 0);
@@ -149,11 +149,22 @@ namespace Kuc_Ray
                             if (objectHit.name == "sph") {
                                 Sphere newObjectHit = (Sphere)objectHit;
                                 textCol = objectHit.mat.Text.pixelColorSph(pp1, newObjectHit.Radius, newObjectHit.Center);
+                                result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular;
+                            } else if (objectHit.name == "pl")
+                            {
+                                //Console.WriteLine("im plane");
+                                Plain newObjectHit = (Plain)objectHit;
+                                textCol = objectHit.mat.Text.pixelColorPl(pp1, newObjectHit.normal);
+                                /*textCol.R = objectHit.mat.Text.pixelColorPl(pp1).R / 255;
+                                textCol.G = objectHit.mat.Text.pixelColorPl(pp1).G / 255;
+                                textCol.B = objectHit.mat.Text.pixelColorPl(pp1).B / 255;*/
+                                result = textCol;
+                                //result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular * 0.01f;
                             }
                         }
                         //result = textCol;
 
-                        result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular;
+                        //result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular;
                         //result += ia + pl.Color *LdotN * objectHit.mat.Color + pl.Color * nh * objectHit.mat.KSpecular;
 
                         colors[i] = result;
