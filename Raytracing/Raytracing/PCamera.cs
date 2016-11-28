@@ -158,8 +158,8 @@ namespace Kuc_Ray
                                 /*textCol.R = objectHit.mat.Text.pixelColorPl(pp1).R / 255;
                                 textCol.G = objectHit.mat.Text.pixelColorPl(pp1).G / 255;
                                 textCol.B = objectHit.mat.Text.pixelColorPl(pp1).B / 255;*/
-                                result = textCol;
-                                //result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular * 0.01f;
+                                //result = textCol;
+                                result += ia + pl.Color * LdotN * textCol + pl.Color * nh * objectHit.mat.KSpecular * 0.01f;
                             }
                         }
                         //result = textCol;

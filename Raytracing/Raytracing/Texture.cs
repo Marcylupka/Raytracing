@@ -67,21 +67,13 @@ namespace Kuc_Ray
             this.width = this.pic.Width;
             this.height = this.pic.Height;
             this.ColorMap = new LightIntensity[this.pic.Width, this.pic.Height];
-            //Console.WriteLine(ColorMap.Length);
             for (int i = 0; i < this.pic.Width; i++)
             {
                 for (int j = 0; j < this.pic.Height; j++)
                 {
-                    //ColorMap[i, j] = new LightIntensity(0, 0, 0);
-                    //Console.WriteLine("wartosc mapy " + ColorMap[i, j]);
-                    //this.pic.GetPixel(i,j).
                     Color pixelColor = this.pic.GetPixel(i, j);
 
                     this.ColorMap[i, j] = new LightIntensity((float)pixelColor.R / 255f, (float)pixelColor.G / 255f, (float)pixelColor.B / 255f);
-
-                    // this.ColorMap[i, j].R = (float)(pixelColor.R/255);
-                    // this.ColorMap[i, j].G = (float)(pixelColor.G/255);
-                    // this.ColorMap[i, j].B = (float)(pixelColor.B/255);
                 }
             }
         }
@@ -91,17 +83,18 @@ namespace Kuc_Ray
             //Console.WriteLine("wszedlem");
 
             LightIntensity result = new LightIntensity(0, 0, 0);
-
-            //float u = 0.5f + Math.Atan(2*)
-            Vector move = new Vector(0, 0, 0) - center;
-            //vert = vert + move;
-
+            
             Vector lp = vert - center;
             double yDIVr = (double)lp.Y / (double)radius;
             double v = 0;
             if (Math.Abs(yDIVr - 1.0f) < 0.00005f) v = 0f;
             else if (Math.Abs(yDIVr + 1.0f) < 0.00005f) v = 1f;
-            else v = (double)Math.Acos(yDIVr) / (double)Math.PI;
+            else
+            {
+                if (yDIVr < -1f) yDIVr = -1f;
+                else if (yDIVr > 1f) yDIVr = 1f;
+                v = (double)Math.Acos(yDIVr) / (double)Math.PI;
+            }
             double rMULsin = radius * (double)Math.Sin((double)Math.PI * v);
             double u = 0;
             if (Math.Abs(v) < 0.00005f)
@@ -122,8 +115,6 @@ namespace Kuc_Ray
             }
             else
             {
-                //try
-                //{
                 double newCos = lp.X / (double)rMULsin;
 
                 if (newCos < -1d)
@@ -136,53 +127,56 @@ namespace Kuc_Ray
                 }
 
                 u = (double)((double)Math.Acos(newCos)) / (double)(2 * Math.PI);
-                //u = (double)((double)Math.Acos(lp.X / (double)rMULsin)) / (double)(2 * Math.PI);
                 u = u * this.pic.Width;
                 v = v * this.pic.Height;
 
                 int newu = (int)Math.Round(u);
                 int newv = (int)Math.Round(v);
 
-                result = this.ColorMap[newu, newv];
-                //}
-                /*catch (Exception)
+                if (newu > this.width)
                 {
-                    u = 0d;
-                    u = u * this.pic.Width;
-                    v = v * this.pic.Height;
-
-                    int newu = (int)Math.Round(u);
-                    int newv = (int)Math.Round(v);
-
-                    //Console.WriteLine(newu + ", " + newv);
-                    //Console.WriteLine(ColorMap[newu, newv]);
-                    result = this.ColorMap[newu, newv];
-                }*/
-
-
-                //Console.WriteLine(rMULsin + ", " + lp.X + ", " + Math.Acos(lp.X / (double)rMULsin));
-                //u = (double)((double)Math.Acos(lp.X / (double)rMULsin)) / (double)(2 * Math.PI);
+                    newu -= this.width;
+                }
+                else if (newu < 0)
+                {
+                    newu += this.width;
+                } else if (newv > this.height)
+                {
+                    newv -= this.height;
+                }
+                else if (newv < 0)
+                {
+                    newv += this.height;
+                }
+                
+                result = this.ColorMap[newu, newv];
             }
+            
             /*
-            u = u * this.pic.Width;
-            v = v * this.pic.Height;
+        double TWOPI = Math.PI * 2;
+        double INV_TWOPI = 1 / (Math.PI * 2);
 
-            int newu = (int)Math.Round(u);
-            int newv = (int)Math.Round(v);
+            int[] coords = new int[2];
+            Vector d = (vert - center);
+            d.normalize();
 
-            //Console.WriteLine(newu + ", " + newv);
-            //Console.WriteLine(ColorMap[newu, newv]);
-            result = this.ColorMap[newu, newv];
+            double thetha = Math.Acos(d.Y);
+
+            double phi = Math.Atan2(d.X, d.Z);
+
+            if (phi < 0.0d)
+            {
+                phi += TWOPI;
+            }
+
+            var u = phi * INV_TWOPI;
+            var v = 1.0 - thetha * INV_TWOPI;
+
+            coords[0] = (int)((this.width - 1) * v);
+            coords[1] = (int)((this.height - 1) * u);
+
+            result = this.ColorMap[coords[0], coords[1]];
             */
-
-
-            /*Vector igrek = new Vector(0, 1, 0);
-            float angle = vert.dot(igrek);
-            int u = (int)((float)(Math.Acos(vert.X / (radius * (float)Math.Sin(angle))))/(float)(2*Math.PI));
-            int v = (int)(((float)(Math.Acos(vert.Y / (float)radius))) / ((float)Math.PI));
-            LightIntensity result = new LightIntensity();
-            result = this.ColorMap[u, v];*/
-
             return result;
         }
 
@@ -218,22 +212,5 @@ namespace Kuc_Ray
 
             return result;
         }
-        /*
-        public LightIntensity pixelColorPl(Vector vert)
-        {
-            LightIntensity result = new LightIntensity(0, 0, 0);
-
-            float u, v;
-            u = ((vert.X + 1.0f) / 2.0f);
-            v = ((vert.Y + 1.0f) / 2.0f);
-
-            int column = (int)Math.Round((this.width - 1f) * u);
-            int row = (int)Math.Round((this.height - 1.0f) * v) - 1;
-
-            result = this.ColorMap[column, row];
-
-            return result;
-        }
-        */
     }
 }

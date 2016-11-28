@@ -76,7 +76,7 @@ namespace Kuc_Ray
             //objectList.Clear();
             //objectList.Add(tr1);
             //Vector pos2 = new Vector(0, 60, 60);
-            Vector pos2 = new Vector(0, 200, 200);
+            Vector pos2 = new Vector(0, 700, 200);
             Vector targ2 = new Vector(10f, 10f, 10f);
             float fov2 = 90f;
             PCamera perspCamera2 = new PCamera(pos2, targ2, fov2);
@@ -95,8 +95,10 @@ namespace Kuc_Ray
             //meszuList.Add(meszu);
             //PointLight light1 = new PointLight(new Vector(50, 10, 0), new LightIntensity(1f, 1f, 1f));
             //PointLight light1 = new PointLight(new Vector(20, 0, -10), new LightIntensity(1f, 1f, 1f));
-            PointLight light1 = new PointLight(new Vector(45, 80, 60), new LightIntensity(1f, 1f, 1f));
-            PointLight light2 = new PointLight(new Vector(60, 80, 45), new LightIntensity(1f, 1f, 1f));
+            PointLight light1 = new PointLight(new Vector(580, 200, 520), new LightIntensity(1f, 1f, 1f));
+            PointLight light2 = new PointLight(new Vector(90, 200, 75), new LightIntensity(1f, 1f, 1f));
+            //PointLight light1 = new PointLight(new Vector(70, 200, 110), new LightIntensity(1f, 1f, 1f));
+            //PointLight light2 = new PointLight(new Vector(110, 200, 70), new LightIntensity(1f, 1f, 1f));
             Material mate = new Material();
             Material mate2 = new Material();
             mate.KDiffuse = new LightIntensity(1f, 1f, 1f);
@@ -108,7 +110,7 @@ namespace Kuc_Ray
             mate2.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
             mate2.Color = new LightIntensity(0f, 0f, 1f);
             Object1 sfera2 = new Sphere(new Vector(10, 10, 10), 50f, mate2);
-            objectList.Add(sfera2);
+            //objectList.Add(sfera2);
             List<PointLight> lights = new List<PointLight>();
             lights.Add(light1);
             lights.Add(light2);
@@ -117,16 +119,29 @@ namespace Kuc_Ray
 
             String path = "D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Raytracing\\world1.jpg";
             Texture earth = new Texture(path);
-            Object1 ziemia = new Sphere(new Vector(10, 10, 10), 70f, mate2);
+            Object1 ziemia = new Sphere(new Vector(280, 10, 10), 180f, mate2);
             mate2.HasTexture = true;
             mate2.Text = earth;
             objectList.Add(ziemia);
 
+            String path2 = "D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Raytracing\\metal.jpg";
+            Texture metal = new Texture(path2);
+            Material mate4 = new Material();
+            mate4.KDiffuse = new LightIntensity(1f, 1f, 1f);
+            mate4.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
+            mate4.Color = new LightIntensity(0f, 0f, 1f);
 
-            String path1 = "D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Raytracing\\metal.jpg";
+            Object1 kula = new Sphere(new Vector(-280, 10, 10), 180f, mate4);
+            mate4.HasTexture = true;
+            mate4.Text = metal;
+            kula.name = "sph";
+            objectList.Add(kula);
+
+            Vector normpl = new Vector(-0.01397133f,0.9640219f,0.2654553f);
+
+            String path1 = "D:\\Dokumenty\\studia\\studia\\IIst\\2.sem\\fotorealistyczna\\zad1_v1 - Kopia\\Raytracing\\Raytracing\\kafelki.jpg";
             Texture green = new Texture(path1);
             Material mate3 = new Material();
-            //mate3 = mate2;
             mate3.KDiffuse = new LightIntensity(1f, 1f, 1f);
             mate3.KSpecular = new LightIntensity(0.5f, 0.5f, 0.5f);
             mate3.Color = new LightIntensity(0f, 0f, 1f);
@@ -135,11 +150,16 @@ namespace Kuc_Ray
             Vector p = new Vector(10f, 10f, 10f);
             Vector pn = pos2 - p;
             pn.normalize();
+            Console.WriteLine(pn);
             Object1 tlo = new Plain(p, pn, true, 5f);
             tlo.normal = pn;
             tlo.mat = mate3;
             objectList.Add(tlo);
-            perspCamera2.aa_object_render_scene(300, 300, objectList, meszuList, "_pln_world1.jpg", 25, lights);
+
+            
+
+            
+            perspCamera2.aa_object_render_scene(500, 500, objectList, meszuList, "_bla.jpg", 25, lights);
         }
     }
 }
