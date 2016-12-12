@@ -85,10 +85,10 @@ namespace Kuc_Ray
             LightIntensity result = new LightIntensity(0, 0, 0);
             
             Vector lp = vert - center;
-            double yDIVr = (double)lp.Y / (double)radius;
+            double yDIVr = (double)lp.Z / (double)radius;
             double v = 0;
-            if (Math.Abs(yDIVr - 1.0f) < 0.00005f) v = 0f;
-            else if (Math.Abs(yDIVr + 1.0f) < 0.00005f) v = 1f;
+            if (Math.Abs(yDIVr - 1.0f) < 0.00005f) v = 0f;  //gorny biegun
+            else if (Math.Abs(yDIVr + 1.0f) < 0.00005f) v = 1f; //dolny biegun
             else
             {
                 if (yDIVr < -1f) yDIVr = -1f;
@@ -152,31 +152,6 @@ namespace Kuc_Ray
                 result = this.ColorMap[newu, newv];
             }
             
-            /*
-        double TWOPI = Math.PI * 2;
-        double INV_TWOPI = 1 / (Math.PI * 2);
-
-            int[] coords = new int[2];
-            Vector d = (vert - center);
-            d.normalize();
-
-            double thetha = Math.Acos(d.Y);
-
-            double phi = Math.Atan2(d.X, d.Z);
-
-            if (phi < 0.0d)
-            {
-                phi += TWOPI;
-            }
-
-            var u = phi * INV_TWOPI;
-            var v = 1.0 - thetha * INV_TWOPI;
-
-            coords[0] = (int)((this.width - 1) * v);
-            coords[1] = (int)((this.height - 1) * u);
-
-            result = this.ColorMap[coords[0], coords[1]];
-            */
             return result;
         }
 

@@ -70,15 +70,16 @@ namespace Kuc_Ray
             this.name = "sph";
         }
 
-        public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist, ref Vector normal)
+        public override HitInfo Intersect(Ray ray)
         {
             Vector notMin = new Vector();
             float t;
             Vector distance = ray.Origin - center;
             float tMin = 0;
-            tempMin = new Vector(0, 0, 0);
+            Vector tempMin = new Vector(0, 0, 0);
+            float dist = 1000f;
             notMin = new Vector(0, 0, 0);
-            amount = 0;
+          //  amount = 0;
             /*if(distance > ray.Distance)
             {
                 return false;
@@ -95,7 +96,7 @@ namespace Kuc_Ray
             //a*x^2 + b*x + c = 0
             float delta = b * b - 4 * a * c; //delta równania kwadratowego
 
-            if (delta < 0) { return false; } //delta<0 - nie ma przecięć
+            if (delta < 0) { return new HitInfo(); } //delta<0 - nie ma przecięć
 
             float deltaSq = (float)Math.Sqrt(delta); //pierwiastek z delty
             float denom = 2 * a; //denomiator - mianownik
@@ -104,7 +105,7 @@ namespace Kuc_Ray
                 if (t > Ray.Mini)
                 {
                     tMin = t;
-                    amount = amount + 1;
+                 //   amount = amount + 1;
                     //Console.Write("t1: ");
                     //Console.WriteLine(tMin);
                     tempMin = ray.Origin + tMin * ray.Direction;
@@ -117,7 +118,7 @@ namespace Kuc_Ray
                         {
                             //Console.Write("t2: ");
                             //Console.WriteLine(temp2);
-                            amount = amount + 1;
+                         //   amount = amount + 1;
                             notMin = ray.Origin + temp2 * ray.Direction;
                             //Console.Write("Punkt przeciecia 2: ");
                             //Console.WriteLine(notMin);
@@ -135,19 +136,19 @@ namespace Kuc_Ray
                     if (t > Ray.Mini)
                     {
                         tMin = t;
-                        amount = amount + 1;
+                    //    amount = amount + 1;
                         //Console.Write("t1: ");
                         //Console.WriteLine(tMin);
                         tempMin = ray.Origin + tMin * ray.Direction;
                         //Console.Write("Punkt przeciecia 1: ");
                         //Console.WriteLine(tempMin);
                     }
-                    else return false;
+                    else return new HitInfo();
                 }
             dist = (tempMin - ray.Origin).length;
             normal = tempMin - center;
             normal.normalize();
-         return true;
+         return new HitInfo(true, dist, normal, tempMin);
 
         }
     }

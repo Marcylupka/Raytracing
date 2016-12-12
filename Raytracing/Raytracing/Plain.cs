@@ -77,9 +77,9 @@ namespace Kuc_Ray
             this.Distance = 0;
         }
 
-        public override bool Intersect(Ray ray, ref int am, ref Vector ppp, ref float distance, ref Vector normal)
+        public override HitInfo Intersect(Ray ray)
         {
-            ppp = new Vector(0, 0, 0);
+           Vector ppp = new Vector(0, 0, 0);
 
             //promień = origin + dir*x
             //r. płaszczyzny (promien - point) * normal = 0
@@ -94,12 +94,13 @@ namespace Kuc_Ray
                 ppp.Y = ray.Origin.Y + distance * ray.Direction.Y;
                 ppp.Z = ray.Origin.Z + distance * ray.Direction.Z;
 
-                am = 1;
-                return true;
-             }
-            am = 0;
+             //   am = 1;
+         return new HitInfo(true, t, normal, ppp);
+              //  return true;
+            }
+          //  am = 0;
             normal = this.normal;
-            return false;
+            return new HitInfo ();
         }
     }
 }

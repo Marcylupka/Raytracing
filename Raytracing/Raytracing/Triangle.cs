@@ -155,10 +155,12 @@ namespace Kuc_Ray
 
         }*/
         //barycentryczne
-        public override bool Intersect(Ray ray, ref int am, ref Vector crossP, ref float dist, ref Vector normal)
+        public override HitInfo Intersect(Ray ray)
         {
             Vector e1 = this.vertexB - this.vertexA;
             Vector e2 = this.vertexC - this.vertexA;
+            Vector crossP = new Vector();
+            float dist = 1000f;
 
             Vector p = ray.Direction.cross(e2);
             float det = e1.dot(p); // wyznacznik macierzy
@@ -166,7 +168,7 @@ namespace Kuc_Ray
             if (-0.00005f < det)
             {
                 if (det < 0.00005f){
-                    return false;
+                    return new HitInfo();
                 }
             }
 
@@ -174,19 +176,19 @@ namespace Kuc_Ray
 
             Vector t = ray.Origin - this.vertexA;
             float m_u = (t.dot(p) * iDet);
-            if (m_u < 0 || m_u > 1) return false;
+            if (m_u < 0 || m_u > 1) return new HitInfo();
 
             Vector q = t.cross(e1);
 
             float m_v = (ray.Direction.dot(q) * iDet);
-            if (m_v < 0 || m_u + m_v > 1) return false;
+            if (m_v < 0 || m_u + m_v > 1) return new HitInfo();
 
             float m_w = (e2.dot(q) * iDet);
 
             if (m_w > 0.00005)
             {
                 crossP = ray.Origin + ray.Direction * m_w;
-                am = 1;
+              //  am = 1;
                 dist = m_w;
 
                 Vector U = (vertexB - vertexA);
@@ -199,10 +201,11 @@ namespace Kuc_Ray
                 //  e2.cross(e1);
                 normal.normalize();
 
-                return true;
+         return new HitInfo(true, dist, normal, crossP);
+             //   return true;
             }
 
-            return false;
+            return new HitInfo();
 
         }
 

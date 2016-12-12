@@ -64,6 +64,29 @@ namespace Kuc_Ray
             set { hasTexture = value; }
         }
 
+        /*
+        private float kRefl;
+        public float KRefl
+        {
+            get { return mirror; }
+            set { mirror = value; }
+        }
+        */
+
+        private bool mirror;
+        public bool Mirror
+        {
+            get { return mirror; }
+            set { mirror = value; }
+        }
+
+        private bool refract;
+        public bool Refract
+        {
+            get { return refract; }
+            set { refract = value; }
+        }
+
         public Material()
         {
             this.color = new LightIntensity(0, 0, 0);
@@ -80,6 +103,8 @@ namespace Kuc_Ray
             this.hasTexture = false;
             this.text = new Texture();
             this.specularExponent = 30;
+            this.mirror = false;
+            this.refract = false;
         }
 
         public Material(LightIntensity col)
@@ -98,6 +123,8 @@ namespace Kuc_Ray
             this.hasTexture = false;
             this.text = new Texture();
             this.specularExponent = 30;
+            this.mirror = false;
+            this.refract = false;
         }
     }
 }

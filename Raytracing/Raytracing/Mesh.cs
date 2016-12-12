@@ -235,22 +235,27 @@ namespace Kuc_Ray
 
 
 
-        public override bool Intersect(Ray ray, ref int amount, ref Vector tempMin, ref float dist, ref Vector normal)
+        public override HitInfo Intersect(Ray ray)
         {
+
+            float dist = 1000f;
             Triangle objectHit = new Triangle();
             Vector c_normal = new Vector();
             float minDist = 1000;
             float lastDist = 0;
-            int am = 1;
+            //int am = 1;
             Vector pp1 = new Vector(0, 0, 0);
             //      bool isIntersection = false;
-
+            HitInfo hit = new HitInfo();
 
 
             foreach (Triangle t in this.triangleList)
             {
-                if (t.Intersect(ray, ref am, ref pp1, ref lastDist, ref c_normal) == true)
+
+                HitInfo hi = t.Intersect(ray);
+                if (hi.isIntersect == true)
                 {
+                    lastDist = hit.distance;
                     if (lastDist > 0 && lastDist < minDist)
                     {
                         minDist = lastDist;
@@ -258,9 +263,10 @@ namespace Kuc_Ray
                         //new Vector(12, 1, 5);// 
                        // c_normal;
                         normal.normalize();
-                        amount = am;
-                       // objectHit = ;
-                        tempMin = ray.Origin + lastDist * ray.Direction;
+                     //   amount = am;
+                        objectHit = t;
+                        hit = hi;
+                       Vector tempMin = ray.Origin + lastDist * ray.Direction;
 
                     }
                 }
@@ -270,12 +276,14 @@ namespace Kuc_Ray
                 dist = minDist;
             if (minDist < 1000)
             {
-              //  normal = objectHit.normal;
+                //  normal = objectHit.normal;
 
-                return true;
+                //return ;
+                return new HitInfo(true, dist, normal, pp1);
+
 
             }
-            return false;
+            return new HitInfo();
         }
     }
 }
